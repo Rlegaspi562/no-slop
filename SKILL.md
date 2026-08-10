@@ -1,6 +1,6 @@
 ---
 name: no-slop
-description: The single entry point for making public-facing work not sound or look AI-generated. Claude should load it for prose another person will read (README, docs, email, post, video script, product copy, cover letter), interfaces and visual artifacts (website, landing page, dashboard, deck, asset), requests to humanize text or remove AI slop, and voice or writing-sample setup. Routes to copied community skills (humanizer, taste) and applies the user's voice layer last, which always wins. Not for quick conversational answers, internal scratch work, logs, or code with no public-facing copy.
+description: The single entry point for making public-facing work not sound or look AI-generated. Claude should load it for prose another person will read (README, docs, email, post, video script, product copy, cover letter), interfaces and visual artifacts (website, landing page, dashboard, deck, asset), requests to humanize text or remove AI slop, and voice or writing-sample setup. Routes to copied community skills (humanizer, stop-slop, taste) and applies the user's voice layer last, which always wins. Not for quick conversational answers, internal scratch work, logs, or code with no public-facing copy.
 user-invocable: true
 argument-hint: "[update | schedule | hook | learn | voice | status] [target]"
 license: MIT
@@ -11,12 +11,13 @@ license: MIT
 One skill for both halves of the problem. Text that sounds generated, and
 interfaces that look generated.
 
-Three layers, applied in this order:
+Two layers followed by a final review:
 
 ```
-1. upstream/     vendored third-party skills, auto-updated, never hand-edited
-2. voice/        the user's own rules and writing, hand-maintained, applied last
-3. impeccable    the detector, for anything with a UI
+1. General cleanup    copied community skills: humanizer + stop-slop for
+                      writing, or taste + impeccable for interfaces
+2. Personal voice     the user's own rules, samples, exceptions, and corrections
+3. Final review       reread the finished work, find what remains, and fix it
 ```
 
 **The voice wins.** When an upstream file and a `voice/` file disagree, the
@@ -89,18 +90,28 @@ next session.
 | Job | Read |
 | --- | --- |
 | Any prose edit, rewrite, or audit | `upstream/humanizer/SKILL.md` |
+| Then run the stricter prose check | `upstream/stop-slop/SKILL.md` and only the referenced files needed for the target |
 | Then, always | `voice/prose.md` |
 
-`humanizer` is the pattern catalogue: inflated symbolism, promotional language,
+`humanizer` is the broad pattern catalogue: inflated symbolism, promotional language,
 superficial -ing analyses, vague attributions, em dash overuse, rule of three,
 AI vocabulary, negative parallelisms, filler. It is thorough and it is not
-tuned to this user. Run it first, then let `prose.md` correct its output.
+tuned to this user.
+
+`stop-slop` is the stricter editing pass. It checks filler, formulaic
+structures, passive abstractions, specificity, sentence rhythm, directness,
+trust, authenticity, and density. Run it after `humanizer`, use its score as a
+revision signal rather than a claim of objective quality, then let `prose.md`
+and the user's writing samples correct both community skills.
 
 Where they conflict, common cases:
 
 - `humanizer` treats em dashes as overused. This voice bans them outright.
 - `humanizer` may flag conversational filler that is in `carve-outs.md`. Keep it.
 - `humanizer` preserves its own voice guidance. `corpus/` outranks it.
+- `stop-slop` contains strict defaults such as removing all adverbs and passive
+  voice. Treat them as findings, not permission to erase a documented personal
+  choice. The user's voice and exceptions still win.
 
 ### Design and web
 

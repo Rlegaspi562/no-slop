@@ -9,6 +9,14 @@ deliverable and whether the final response records a no-slop audit. If the
 audit is missing, the hook prevents the turn from ending and tells Claude to
 run the skill in embedded mode, fix the result, and try again.
 
+## Where it runs
+
+The hook runs after Claude has drafted the work, at the moment Claude tries to
+stop. The final review should already have happened. If the evidence is
+missing, the hook sends Claude back to that review step. It does not participate
+in skill selection, writing cleanup, voice calibration, or weekly GitHub
+updates.
+
 ## Install
 
 ```bash

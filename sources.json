@@ -22,8 +22,41 @@
       "handles": "prose",
       "source_note": "upstream/humanizer/SOURCE.md",
       "copy": [
-        { "from": "SKILL.md", "to": "upstream/humanizer/SKILL.md" },
-        { "from": "LICENSE", "to": "upstream/humanizer/LICENSE" }
+        {
+          "from": "SKILL.md",
+          "to": "upstream/humanizer/SKILL.md"
+        },
+        {
+          "from": "LICENSE",
+          "to": "upstream/humanizer/LICENSE"
+        }
+      ]
+    },
+    {
+      "id": "stop-slop",
+      "title": "Stop Slop",
+      "repo": "https://github.com/hardikpandya/stop-slop",
+      "author": "Hardik Pandya (@hardikpandya)",
+      "license": "MIT",
+      "ref": "main",
+      "pinned": "8da1f030185bdfe8471220585162991eaeb970e9",
+      "fetched": "2026-08-10",
+      "handles": "prose",
+      "source_note": "upstream/stop-slop/SOURCE.md",
+      "copy": [
+        {
+          "from": "SKILL.md",
+          "to": "upstream/stop-slop/SKILL.md"
+        },
+        {
+          "from": "references",
+          "to": "upstream/stop-slop/references",
+          "recursive": true
+        },
+        {
+          "from": "LICENSE",
+          "to": "upstream/stop-slop/LICENSE"
+        }
       ]
     },
     {
@@ -38,8 +71,19 @@
       "handles": "design",
       "source_note": "upstream/taste/SOURCE.md",
       "copy": [
-        { "from": "skills", "to": "upstream/taste", "recursive": true, "preserve": ["SOURCE.md", "LICENSE"] },
-        { "from": "LICENSE", "to": "upstream/taste/LICENSE" }
+        {
+          "from": "skills",
+          "to": "upstream/taste",
+          "recursive": true,
+          "preserve": [
+            "SOURCE.md",
+            "LICENSE"
+          ]
+        },
+        {
+          "from": "LICENSE",
+          "to": "upstream/taste/LICENSE"
+        }
       ]
     }
   ]

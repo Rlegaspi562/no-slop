@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1160" viewBox="0 0 1600 1160" role="img" aria-labelledby="title desc">
   <title id="title">How the no-slop Claude Code skill works</title>
-  <desc id="desc">A top-down diagram. Claude receives a request for public-facing work. The no-slop skill sends writing through the humanizer skill, or interfaces through the taste and impeccable skills. It then applies the user's rules, writing samples, exceptions, and saved corrections. A final review fixes anything that still feels generic or unverified. A separate weekly GitHub Action proposes updates to copied community skills without changing the user's voice files.</desc>
+  <desc id="desc">A top-down diagram. Claude receives a request for public-facing work. The no-slop skill sends writing through the humanizer and stop-slop skills, or interfaces through the taste and impeccable skills. It then applies the user's rules, writing samples, exceptions, and saved corrections. A final review fixes anything that still feels generic or unverified. When Claude tries to finish, an optional Stop hook checks that the final review happened and sends Claude back if it did not. A separate weekly GitHub Action proposes updates to copied community skills without changing the user's voice files.</desc>
 
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
@@ -8,7 +8,7 @@
     </marker>
   </defs>
 
-  <rect width="1600" height="1000" fill="#f5f1e8"/>
+  <rect width="1600" height="1160" fill="#f5f1e8"/>
 
   <g font-family="Arial, Helvetica, sans-serif">
     <text id="heading" x="60" y="58" fill="#191816" font-size="34" font-weight="800">HOW THE /NO-SLOP CLAUDE CODE SKILL WORKS</text>
@@ -29,9 +29,10 @@
 
     <rect x="88" y="368" width="474" height="136" rx="10" fill="#fffdf8" stroke="#8b8478"/>
     <text x="110" y="398" fill="#6c665d" font-size="13" font-weight="800" letter-spacing="1.2">IF IT IS WRITING</text>
-    <text x="110" y="430" fill="#191816" font-size="21" font-weight="800">/humanizer skill</text>
-    <text x="110" y="458" fill="#4f4a43" font-size="15">Finds formulaic phrases, filler, repeated patterns,</text>
-    <text x="110" y="481" fill="#4f4a43" font-size="15">and other common signs of AI-generated writing.</text>
+    <text x="110" y="429" fill="#191816" font-size="20" font-weight="800">/humanizer + /stop-slop skills</text>
+    <text x="110" y="454" fill="#4f4a43" font-size="14">/humanizer finds broad AI writing patterns.</text>
+    <text x="110" y="476" fill="#4f4a43" font-size="14">/stop-slop checks directness, rhythm, specificity, trust,</text>
+    <text x="110" y="498" fill="#4f4a43" font-size="14">and how much can still be cut.</text>
 
     <rect x="586" y="368" width="486" height="136" rx="10" fill="#fffdf8" stroke="#8b8478"/>
     <text x="608" y="398" fill="#6c665d" font-size="13" font-weight="800" letter-spacing="1.2">IF IT IS A WEBSITE OR INTERFACE</text>
@@ -64,10 +65,18 @@
     <text x="88" y="898" fill="#191816" font-size="18" font-weight="700">Claude rereads the finished work, finds anything that still feels generic or unverified, and fixes it.</text>
     <text x="88" y="924" fill="#5f5a52" font-size="15">This is a review step inside the no-slop skill, not another skill you need to install.</text>
 
-    <text x="580" y="978" text-anchor="middle" fill="#191816" font-size="17" font-weight="800">RESULT: public-facing work that sounds like you and looks intentional.</text>
+    <path d="M580 943 L580 971" stroke="#b85f3d" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <rect x="60" y="981" width="1040" height="105" rx="12" fill="#fff7ef" stroke="#b85f3d" stroke-width="2"/>
+    <text x="88" y="1016" fill="#7f3f29" font-size="14" font-weight="800" letter-spacing="1.2">OPTIONAL STOP HOOK · RUNS WHEN CLAUDE TRIES TO FINISH</text>
+    <text x="88" y="1046" fill="#191816" font-size="17" font-weight="700">It checks whether the final review above happened. If it is missing, the hook sends Claude back to do it.</text>
+    <text x="88" y="1072" fill="#5f5a52" font-size="15">The hook does not rewrite the work itself. It makes the final review harder to forget.</text>
+
+    <path d="M580 1087 L580 1114" stroke="#b85f3d" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="580" y="1145" text-anchor="middle" fill="#191816" font-size="17" font-weight="800">RESULT: public-facing work that sounds like you and looks intentional.</text>
 
     <!-- Update explanation -->
-    <rect x="1140" y="125" width="400" height="817" rx="12" fill="#292621"/>
+    <rect x="1140" y="125" width="400" height="961" rx="12" fill="#292621"/>
     <text x="1170" y="166" fill="#efad86" font-size="14" font-weight="800" letter-spacing="1.4">HOW WEEKLY UPDATES STAY SAFE</text>
     <text x="1170" y="198" fill="#fffdf8" font-size="20" font-weight="800">Only the copied community</text>
     <text x="1170" y="224" fill="#fffdf8" font-size="20" font-weight="800">skills can change.</text>
@@ -112,5 +121,11 @@
 
     <text x="1170" y="914" fill="#cfc7ba" font-size="14">The public download starts with these</text>
     <text x="1170" y="934" fill="#cfc7ba" font-size="14">personal files empty, ready for your voice.</text>
+
+    <line x1="1170" y1="968" x2="1510" y2="968" stroke="#766f64"/>
+    <text x="1170" y="997" fill="#efad86" font-size="13" font-weight="800" letter-spacing="1">SEPARATE FROM THE STOP HOOK</text>
+    <text x="1170" y="1025" fill="#fffdf8" font-size="14">Weekly updates change copied skill files.</text>
+    <text x="1170" y="1048" fill="#fffdf8" font-size="14">The Stop hook only checks that the final</text>
+    <text x="1170" y="1069" fill="#fffdf8" font-size="14">review ran when Claude tries to finish.</text>
   </g>
 </svg>

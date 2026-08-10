@@ -107,15 +107,26 @@ when Claude is about to finish and sends Claude back when a public-facing
 deliverable has no recorded no-slop audit. See `reference/hooks.md` for the
 tradeoffs and removal command.
 
-## Vendored upstreams
+In the workflow, the hook sits after the final review and before Claude is
+allowed to stop. It does not rewrite the work or choose the writing and design
+skills. It only checks that the review happened. It is also separate from the
+weekly GitHub update workflow.
+
+In the workflow, the hook sits after the final review and before Claude is
+allowed to stop. It does not rewrite the work or choose the writing and design
+skills. It only checks that the review happened. It is also separate from the
+weekly GitHub update workflow.
+
+## Copied community skills
 
 | Source | Author | License | Covers |
 | ------ | ------ | ------- | ------ |
 | [blader/humanizer](https://github.com/blader/humanizer) | Siqi Chen | MIT | Prose. Pattern catalogue derived from Wikipedia's "Signs of AI writing." |
+| [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop) | Hardik Pandya | MIT | Prose. A stricter editing pass for directness, rhythm, specificity, trust, and density. |
 | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill) | leonxlnx | MIT | Design. Thirteen skills covering direction, brand, image-to-code, and redesign. |
 
-Both are vendored verbatim with their licenses. Pinned commits and fetch dates
-are in `sources.json` and in each `SOURCE.md`.
+All three are copied with their licenses. Exact commits and fetch dates are in
+`sources.json` and in each `SOURCE.md`.
 
 ## Public template model
 
