@@ -1,0 +1,3 @@
+# Per-machine local state
+.local.json
+node_modules/
