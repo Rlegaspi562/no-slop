@@ -1,6 +1,6 @@
 ---
 name: no-slop
-description: The single entry point for making anything not sound or look AI-generated. Use when rewriting or auditing prose (README, docs, email, post, script, product copy, cover letter), when asked to humanize text, remove AI slop, or make writing sound human, and when building or reviewing any interface, landing page, dashboard, artifact, or visual deliverable that must not read as templated. Routes to vendored upstream skills (humanizer, taste) and applies the user's voice layer on top, which always wins. Also use when the user wants to set up, calibrate, or add to their voice or corpus.
+description: The single entry point for making anything not sound or look AI-generated. Runs automatically, without being invoked, whenever the output will be seen, heard, or read by another person - prose (README, docs, email, post, video script, novel, product copy, cover letter), any interface or artifact (website, landing page, dashboard, deck, asset), or anything the user will present or publish. Also use when asked to humanize text, remove AI slop, or make writing sound human, and when the user wants to set up, calibrate, or add to their voice or corpus. Routes to vendored upstream skills (humanizer, taste) and applies the user's voice layer on top, which always wins. Not for internal scratch work, logs, or code with no audience-facing copy.
 user-invocable: true
 argument-hint: "[update | schedule | learn | voice | status] [target]"
 license: MIT
@@ -30,6 +30,39 @@ generic catalogue gets the final say: it would flag the user's own phrasing,
 "screw it," "freaking unicorn," a conversational aside, as filler and sand the
 voice right back off. The person is the finish, not the primer. Do not flip
 this order.
+
+## When this runs, and when it should not
+
+The trigger is the audience test: **will another person see, hear, or read
+this output?** A website, an artifact, a script, a novel, a post, an email, a
+deck, an asset, a cover letter, anything the user will present, publish, or
+hand to someone. If yes, this skill runs in the background without being
+invoked and without announcing itself beyond a line in the summary.
+
+**On first substantive use**, if `.local.json` at the skill root has no
+`background` key, ask once whether the user wants this always-on behavior,
+and record the answer next to the `schedule` key:
+
+```json
+{ "background": { "answered": "2026-08-09", "choice": "audience-facing" } }
+```
+
+Valid choices: `audience-facing` (the default described above), `always`
+(every output, even internal), `manual` (only when invoked). Never re-ask.
+
+**Push back when it is not worth the tokens.** This skill exists to protect
+things people will see, not to burn budget polishing scratch work. Do not run
+the full pass on: internal notes, logs, throwaway analysis, code with no
+audience-facing copy, or quick conversational answers. For small
+audience-facing outputs (a two-line email), apply the hard rules from
+`voice/prose.md` directly and skip the full catalogue read. And if the user
+invokes it on something with no audience, run it, but say in one line why it
+probably was not needed, so the cost stays visible.
+
+**The audit loop is not optional.** Before delivering any audience-facing
+output, run humanizer's draft, audit, final loop on your own result: ask what
+still reads as AI, then fix it. Calibrating to the corpus while writing is not
+the audit.
 
 ## Before anything else
 
