@@ -51,6 +51,71 @@ function walk(dir, base = dir, out = new Map()) {
   return out;
 }
 
+function isPreserved(rel, preserveList) {
+  const normalized = rel.split(path.sep).join('/');
+  return preserveList.some((entry) => {
+    const p = entry.replaceAll('\\', '/').replace(/^\.\//, '').replace(/\/$/, '');
+    return normalized === p || normalized.startsWith(`${p}/`);
+  });
+}
+
+function pruneEmptyDirs(dir, root = dir) {
+  if (!fs.existsSync(dir)) return;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.isDirectory()) pruneEmptyDirs(path.join(dir, entry.name), root);
+  }
+  if (dir !== root && fs.readdirSync(dir).length === 0) fs.rmdirSync(dir);
+}
+
+function pruneRecursive(from, to, preserveList, protectedList) {
+  const sourceFiles = walk(from);
+  const destinationFiles = walk(to);
+  for (const rel of destinationFiles.keys()) {
+    if (sourceFiles.has(rel) || isPreserved(rel, preserveList)) continue;
+    const target = path.join(to, rel);
+    assertWritable(target, protectedList);
+    fs.rmSync(target, { force: true });
+  }
+  pruneEmptyDirs(to);
+}
+
+const SOURCE_START = '<!-- no-slop-source:start -->';
+const SOURCE_END = '<!-- no-slop-source:end -->';
+
+function sourceBlock(src) {
+  const lines = [
+    SOURCE_START,
+    `Source: ${src.repo}`,
+    `Ref: ${src.ref ?? 'main'}`,
+    `Pinned commit: \`${src.pinned}\``,
+    `Fetched: ${src.fetched}`,
+  ];
+  if (src.version) lines.push(`Version: ${src.version}`);
+  lines.push(SOURCE_END);
+  return lines.join('\n');
+}
+
+function syncSourceNote(src, checkOnly) {
+  if (!src.source_note) return false;
+  const note = path.resolve(ROOT, src.source_note);
+  const rel = path.relative(ROOT, note).split(path.sep).join('/');
+  if (rel.startsWith('..') || path.isAbsolute(rel) || !rel.startsWith('upstream/')) {
+    throw new Error(`invalid source_note path: ${src.source_note}`);
+  }
+  if (!fs.existsSync(note)) throw new Error(`missing source note: ${src.source_note}`);
+
+  const current = fs.readFileSync(note, 'utf8');
+  const start = current.indexOf(SOURCE_START);
+  const end = current.indexOf(SOURCE_END);
+  if (start === -1 || end === -1 || end < start) {
+    throw new Error(`source note is missing managed markers: ${src.source_note}`);
+  }
+  const next = `${current.slice(0, start)}${sourceBlock(src)}${current.slice(end + SOURCE_END.length)}`;
+  if (next === current) return false;
+  if (!checkOnly) fs.writeFileSync(note, next);
+  return true;
+}
+
 // A destination is legal only if it stays inside ROOT and does not fall under
 // any protected prefix. This is the guard that keeps voice/ safe.
 function assertWritable(dest, protectedList) {
@@ -116,8 +181,19 @@ for (const src of manifest.sources) {
     git(process.cwd(), 'clone', '--depth', '1', '--branch', src.ref ?? 'main', src.repo, tmp);
     const head = git(tmp, 'rev-parse', 'HEAD');
 
+    const missing = src.copy.filter((m) => !fs.existsSync(path.join(tmp, m.from)));
+    if (missing.length) {
+      throw new Error(`missing upstream path${missing.length === 1 ? '' : 's'}: ${missing.map((m) => m.from).join(', ')}`);
+    }
+
     if (head === src.pinned && !FORCE) {
-      console.log(`  ${c.green('up to date')} ${c.dim(head.slice(0, 7))}\n`);
+      const noteChanged = syncSourceNote(src, CHECK);
+      if (noteChanged) {
+        console.log(`  ${c.yellow(CHECK ? 'source note needs refresh' : 'source note refreshed')} ${src.source_note}\n`);
+        anyChange = true;
+      } else {
+        console.log(`  ${c.green('up to date')} ${c.dim(head.slice(0, 7))}\n`);
+      }
       continue;
     }
 
@@ -141,13 +217,9 @@ for (const src of manifest.sources) {
     for (const m of src.copy) {
       const from = path.join(tmp, m.from);
       const to = path.join(ROOT, m.to);
-      if (!fs.existsSync(from)) {
-        console.log(`  ${c.red('missing upstream path')} ${m.from}`);
-        failures++;
-        continue;
-      }
       if (m.recursive) fs.mkdirSync(to, { recursive: true });
       copyInto(from, to, protectedList, !!m.recursive);
+      if (m.recursive) pruneRecursive(from, to, m.preserve ?? [], protectedList);
     }
 
     const after = new Map();
@@ -160,13 +232,14 @@ for (const src of manifest.sources) {
     const { added, changed, removed } = diffReport(before, after);
     for (const f of added) console.log(`  ${c.green('+')} ${f}`);
     for (const f of changed) console.log(`  ${c.yellow('~')} ${f}`);
-    for (const f of removed) console.log(`  ${c.dim('-')} ${f} ${c.dim('(gone upstream, still present locally)')}`);
+    for (const f of removed) console.log(`  ${c.red('-')} ${f}`);
     if (!added.length && !changed.length && !removed.length) {
       console.log(`  ${c.dim('commit moved but no vendored file changed')}`);
     }
 
     src.pinned = head;
     src.fetched = today;
+    if (syncSourceNote(src, false)) console.log(`  ${c.yellow('~')} ${src.source_note}`);
     anyChange = true;
     console.log('');
   } catch (err) {

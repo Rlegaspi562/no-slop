@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">How the no-slop Claude Code skill works</title>
+  <desc id="desc">A top-down diagram. Claude receives a request for public-facing work. The no-slop skill sends writing through the humanizer skill, or interfaces through the taste and impeccable skills. It then applies the user's rules, writing samples, exceptions, and saved corrections. A final review fixes anything that still feels generic or unverified. A separate weekly GitHub Action proposes updates to copied community skills without changing the user's voice files.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#b85f3d"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#f5f1e8"/>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text id="heading" x="60" y="58" fill="#191816" font-size="34" font-weight="800">HOW THE /NO-SLOP CLAUDE CODE SKILL WORKS</text>
+    <text x="60" y="91" fill="#5f5a52" font-size="18">A Claude Code skill is a folder of instructions that tells Claude how to handle a specific kind of task.</text>
+
+    <!-- Main reading path -->
+    <rect x="60" y="125" width="1040" height="112" rx="12" fill="#fffdf8" stroke="#27241f" stroke-width="2"/>
+    <rect x="60" y="125" width="12" height="112" rx="6" fill="#b85f3d"/>
+    <text x="92" y="164" fill="#b85f3d" font-size="14" font-weight="800" letter-spacing="1.4">STEP 1</text>
+    <text x="92" y="195" fill="#191816" font-size="24" font-weight="800">Claude receives your request for public-facing work</text>
+    <text x="92" y="220" fill="#5f5a52" font-size="16">Examples: email, README, video script, website, dashboard, presentation</text>
+
+    <path d="M580 238 L580 272" stroke="#b85f3d" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <rect x="60" y="282" width="1040" height="250" rx="12" fill="#e9e3d7" stroke="#27241f" stroke-width="2"/>
+    <text x="88" y="318" fill="#b85f3d" font-size="14" font-weight="800" letter-spacing="1.4">LAYER 1 · GENERAL CLEANUP</text>
+    <text x="88" y="345" fill="#3f3a34" font-size="16">/no-slop chooses a skill based on what you asked Claude to make.</text>
+
+    <rect x="88" y="368" width="474" height="136" rx="10" fill="#fffdf8" stroke="#8b8478"/>
+    <text x="110" y="398" fill="#6c665d" font-size="13" font-weight="800" letter-spacing="1.2">IF IT IS WRITING</text>
+    <text x="110" y="430" fill="#191816" font-size="21" font-weight="800">/humanizer skill</text>
+    <text x="110" y="458" fill="#4f4a43" font-size="15">Finds formulaic phrases, filler, repeated patterns,</text>
+    <text x="110" y="481" fill="#4f4a43" font-size="15">and other common signs of AI-generated writing.</text>
+
+    <rect x="586" y="368" width="486" height="136" rx="10" fill="#fffdf8" stroke="#8b8478"/>
+    <text x="608" y="398" fill="#6c665d" font-size="13" font-weight="800" letter-spacing="1.2">IF IT IS A WEBSITE OR INTERFACE</text>
+    <text x="608" y="430" fill="#191816" font-size="21" font-weight="800">/taste + /impeccable skills</text>
+    <text x="608" y="458" fill="#4f4a43" font-size="15">/taste chooses a clear visual direction.</text>
+    <text x="608" y="481" fill="#4f4a43" font-size="15">/impeccable checks for generic layouts and weak hierarchy.</text>
+
+    <path d="M580 533 L580 565" stroke="#b85f3d" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <rect x="60" y="575" width="1040" height="218" rx="12" fill="#d9cfc0" stroke="#27241f" stroke-width="2"/>
+    <text x="88" y="610" fill="#7f3f29" font-size="14" font-weight="800" letter-spacing="1.4">LAYER 2 · YOUR VOICE AND TASTE</text>
+    <text x="88" y="637" fill="#3f3a34" font-size="16">After the general cleanup, /no-slop applies your personal files:</text>
+
+    <circle cx="101" cy="674" r="5" fill="#b85f3d"/>
+    <text x="117" y="680" fill="#191816" font-size="15"><tspan font-weight="800">Rules:</tspan> words and design choices you want or ban</text>
+    <circle cx="101" cy="714" r="5" fill="#b85f3d"/>
+    <text x="117" y="720" fill="#191816" font-size="15"><tspan font-weight="800">Writing samples:</tspan> real examples of how you speak and write</text>
+    <circle cx="600" cy="674" r="5" fill="#b85f3d"/>
+    <text x="616" y="680" fill="#191816" font-size="15"><tspan font-weight="800">Exceptions:</tspan> unusual choices that are genuinely yours</text>
+    <circle cx="600" cy="714" r="5" fill="#b85f3d"/>
+    <text x="616" y="720" fill="#191816" font-size="15"><tspan font-weight="800">Saved corrections:</tspan> fixes recorded after you correct Claude</text>
+
+    <rect x="88" y="746" width="984" height="31" rx="6" fill="#fff7ef"/>
+    <text x="580" y="767" text-anchor="middle" fill="#7f3f29" font-size="15" font-weight="800">If a general cleanup rule disagrees with your real voice, your voice is kept.</text>
+
+    <path d="M580 794 L580 824" stroke="#b85f3d" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <rect x="60" y="834" width="1040" height="108" rx="12" fill="#fffdf8" stroke="#27241f" stroke-width="2"/>
+    <text x="88" y="868" fill="#b85f3d" font-size="14" font-weight="800" letter-spacing="1.4">FINAL REVIEW INSIDE /NO-SLOP</text>
+    <text x="88" y="898" fill="#191816" font-size="18" font-weight="700">Claude rereads the finished work, finds anything that still feels generic or unverified, and fixes it.</text>
+    <text x="88" y="924" fill="#5f5a52" font-size="15">This is a review step inside the no-slop skill, not another skill you need to install.</text>
+
+    <text x="580" y="978" text-anchor="middle" fill="#191816" font-size="17" font-weight="800">RESULT: public-facing work that sounds like you and looks intentional.</text>
+
+    <!-- Update explanation -->
+    <rect x="1140" y="125" width="400" height="817" rx="12" fill="#292621"/>
+    <text x="1170" y="166" fill="#efad86" font-size="14" font-weight="800" letter-spacing="1.4">HOW WEEKLY UPDATES STAY SAFE</text>
+    <text x="1170" y="198" fill="#fffdf8" font-size="20" font-weight="800">Only the copied community</text>
+    <text x="1170" y="224" fill="#fffdf8" font-size="20" font-weight="800">skills can change.</text>
+
+    <circle cx="1186" cy="281" r="17" fill="#b85f3d"/>
+    <text x="1186" y="287" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">1</text>
+    <text x="1217" y="278" fill="#fffdf8" font-size="16" font-weight="700">Every Monday, a GitHub Action runs.</text>
+    <text x="1217" y="301" fill="#cfc7ba" font-size="14">That is an automatic task inside GitHub.</text>
+
+    <line x1="1186" y1="305" x2="1186" y2="340" stroke="#766f64" stroke-width="2"/>
+    <circle cx="1186" cy="363" r="17" fill="#b85f3d"/>
+    <text x="1186" y="369" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">2</text>
+    <text x="1217" y="354" fill="#fffdf8" font-size="16" font-weight="700">It compares the copied skill files</text>
+    <text x="1217" y="377" fill="#fffdf8" font-size="16" font-weight="700">with the creators’ GitHub repos.</text>
+    <text x="1217" y="400" fill="#cfc7ba" font-size="14">The creators’ repos are the originals.</text>
+
+    <line x1="1186" y1="387" x2="1186" y2="430" stroke="#766f64" stroke-width="2"/>
+    <circle cx="1186" cy="453" r="17" fill="#b85f3d"/>
+    <text x="1186" y="459" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">3</text>
+    <text x="1217" y="444" fill="#fffdf8" font-size="16" font-weight="700">If something changed, it opens</text>
+    <text x="1217" y="467" fill="#fffdf8" font-size="16" font-weight="700">a pull request.</text>
+    <text x="1217" y="490" fill="#cfc7ba" font-size="14">A pull request is a proposed update.</text>
+
+    <line x1="1186" y1="477" x2="1186" y2="520" stroke="#766f64" stroke-width="2"/>
+    <circle cx="1186" cy="543" r="17" fill="#b85f3d"/>
+    <text x="1186" y="549" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">4</text>
+    <text x="1217" y="534" fill="#fffdf8" font-size="16" font-weight="700">You review the exact changes.</text>
+    <text x="1217" y="557" fill="#cfc7ba" font-size="14">Nothing is accepted until you approve it.</text>
+
+    <line x1="1186" y1="567" x2="1186" y2="610" stroke="#766f64" stroke-width="2"/>
+    <circle cx="1186" cy="633" r="17" fill="#b85f3d"/>
+    <text x="1186" y="639" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">5</text>
+    <text x="1217" y="624" fill="#fffdf8" font-size="16" font-weight="700">After approval, only those copied</text>
+    <text x="1217" y="647" fill="#fffdf8" font-size="16" font-weight="700">community skill files update.</text>
+
+    <rect x="1170" y="703" width="340" height="166" rx="10" fill="#fff7ef"/>
+    <text x="1193" y="738" fill="#7f3f29" font-size="15" font-weight="800" letter-spacing="1">YOUR FILES ARE PROTECTED</text>
+    <text x="1193" y="772" fill="#292621" font-size="15">The updater is blocked from changing:</text>
+    <text x="1193" y="804" fill="#292621" font-size="15" font-weight="700">• your rules</text>
+    <text x="1193" y="831" fill="#292621" font-size="15" font-weight="700">• your writing samples</text>
+    <text x="1193" y="858" fill="#292621" font-size="15" font-weight="700">• your saved corrections</text>
+
+    <text x="1170" y="914" fill="#cfc7ba" font-size="14">The public download starts with these</text>
+    <text x="1170" y="934" fill="#cfc7ba" font-size="14">personal files empty, ready for your voice.</text>
+  </g>
+</svg>

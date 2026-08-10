@@ -1,8 +1,8 @@
 ---
 name: no-slop
-description: The single entry point for making anything not sound or look AI-generated. Runs automatically, without being invoked, whenever the output will be seen, heard, or read by another person - prose (README, docs, email, post, video script, novel, product copy, cover letter), any interface or artifact (website, landing page, dashboard, deck, asset), or anything the user will present or publish. Also use when asked to humanize text, remove AI slop, or make writing sound human, and when the user wants to set up, calibrate, or add to their voice or corpus. Routes to vendored upstream skills (humanizer, taste) and applies the user's voice layer on top, which always wins. Not for internal scratch work, logs, or code with no audience-facing copy.
+description: The single entry point for making public-facing work not sound or look AI-generated. Claude should load it for prose another person will read (README, docs, email, post, video script, product copy, cover letter), interfaces and visual artifacts (website, landing page, dashboard, deck, asset), requests to humanize text or remove AI slop, and voice or writing-sample setup. Routes to copied community skills (humanizer, taste) and applies the user's voice layer last, which always wins. Not for quick conversational answers, internal scratch work, logs, or code with no public-facing copy.
 user-invocable: true
-argument-hint: "[update | schedule | learn | voice | status] [target]"
+argument-hint: "[update | schedule | hook | learn | voice | status] [target]"
 license: MIT
 ---
 
@@ -26,14 +26,13 @@ voice is correct. Override silently. Do not ask the user to resolve it.
 owns the result. Upstream first means the generic catalogues strip generic
 slop, and then the voice shapes what remains into how this user sounds, with
 nothing after it to undo that. Run the voice first and humanizer last, and the
-generic catalogue gets the final say: it would flag the user's own phrasing,
-"screw it," "freaking unicorn," a conversational aside, as filler and sand the
-voice right back off. The person is the finish, not the primer. Do not flip
-this order.
+generic catalogue gets the final say: it could flag the user's own phrasing or
+a conversational aside as filler and sand the voice right back off. The person
+is the finish, not the primer. Do not flip this order.
 
 ## When this runs, and when it should not
 
-The trigger is the audience test: **will another person see, hear, or read
+The trigger is the public-facing test: **will another person see, hear, or read
 this output?** A website, an artifact, a script, a novel, a post, an email, a
 deck, an asset, a cover letter, anything the user will present, publish, or
 hand to someone. If yes, this skill runs in the background without being
@@ -44,22 +43,27 @@ invoked and without announcing itself beyond a line in the summary.
 and record the answer next to the `schedule` key:
 
 ```json
-{ "background": { "answered": "2026-08-09", "choice": "audience-facing" } }
+{ "background": { "answered": "2026-08-09", "choice": "public-facing" } }
 ```
 
-Valid choices: `audience-facing` (the default described above), `always`
+Valid choices: `public-facing` (the default described above), `always`
 (every output, even internal), `manual` (only when invoked). Never re-ask.
+
+On that same first substantive use, if `.local.json` has no `schedule` key,
+read `reference/scheduling.md` and offer the update choices once. Combine the
+background and schedule questions when both are unanswered. Record declines so
+the skill does not ask again.
 
 **Push back when it is not worth the tokens.** This skill exists to protect
 things people will see, not to burn budget polishing scratch work. Do not run
 the full pass on: internal notes, logs, throwaway analysis, code with no
-audience-facing copy, or quick conversational answers. For small
-audience-facing outputs (a two-line email), apply the hard rules from
+public-facing copy, or quick conversational answers. For small
+public-facing outputs (a two-line email), apply the hard rules from
 `voice/prose.md` directly and skip the full catalogue read. And if the user
 invokes it on something with no audience, run it, but say in one line why it
 probably was not needed, so the cost stays visible.
 
-**The audit loop is not optional.** Before delivering any audience-facing
+**The audit loop is not optional.** Before delivering any public-facing
 output, run humanizer's draft, audit, final loop on your own result: ask what
 still reads as AI, then fix it. Calibrating to the corpus while writing is not
 the audit.
@@ -162,6 +166,14 @@ Use `--check` to see what would change without writing.
 
 Offer to create a recurring routine that runs the updater. See
 `reference/scheduling.md`. Ask once, record the answer, do not nag.
+
+### `/no-slop hook`
+
+Offer the final audit gate described in `reference/hooks.md`. Install it with
+`node scripts/hook.mjs install` only after the user agrees. Use `status` or
+`remove` as the second argument when requested. The hook is a deterministic
+backstop for the final audit, not a replacement for this skill's routing or
+voice pass.
 
 ### `/no-slop learn`
 

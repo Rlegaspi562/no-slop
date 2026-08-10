@@ -25,10 +25,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Run the updater
+      - name: Run tests and updater
         id: update
         working-directory: no-slop
         run: |
+          node --test scripts/*.test.mjs
           node scripts/update.mjs | tee /tmp/update.log
           echo 'log<<EOF' >> "$GITHUB_OUTPUT"
           cat /tmp/update.log >> "$GITHUB_OUTPUT"

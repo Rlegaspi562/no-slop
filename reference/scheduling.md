@@ -45,6 +45,11 @@ The repo needs pull-request write permission for Actions. In the repo settings,
 under Actions, General, Workflow permissions, enable "Allow GitHub Actions to
 create and approve pull requests."
 
+Cloning someone else's repository does not schedule updates for the local
+clone. The workflow must run in a repository the user controls, normally a
+fork, and GitHub starts scheduled workflows disabled on public forks. Enable
+the workflow in the Actions tab after forking.
+
 ## Option 2: A scheduled agent routine
 
 Use when the update should be reviewed conversationally rather than as a diff,

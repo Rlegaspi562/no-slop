@@ -20,6 +20,7 @@
       "version": "2.9.1",
       "fetched": "2026-08-09",
       "handles": "prose",
+      "source_note": "upstream/humanizer/SOURCE.md",
       "copy": [
         { "from": "SKILL.md", "to": "upstream/humanizer/SKILL.md" },
         { "from": "LICENSE", "to": "upstream/humanizer/LICENSE" }
@@ -35,8 +36,9 @@
       "pinned": "e988add20dab0fa97d7a76781c48961c8184288e",
       "fetched": "2026-08-09",
       "handles": "design",
+      "source_note": "upstream/taste/SOURCE.md",
       "copy": [
-        { "from": "skills", "to": "upstream/taste", "recursive": true },
+        { "from": "skills", "to": "upstream/taste", "recursive": true, "preserve": ["SOURCE.md", "LICENSE"] },
         { "from": "LICENSE", "to": "upstream/taste/LICENSE" }
       ]
     }
