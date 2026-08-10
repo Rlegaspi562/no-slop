@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="650" viewBox="0 0 1600 650" role="img" aria-labelledby="title desc">
+  <title id="title">What no-slop changes</title>
+  <desc id="desc">Without no-slop, a user must remember several separate skills, general cleanup can flatten their voice, copied skills can become outdated, and the final review can be skipped. With no-slop, one skill chooses the writing or interface checks, applies the user's voice afterward, proposes community-skill updates for review, and can use an optional Stop hook to catch a missed final review. The public download includes starter rules and community skills, while personal samples, exceptions, and learned corrections start empty.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#b85f3d"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="650" fill="#f5f1e8"/>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="60" y="60" fill="#191816" font-family="Georgia, 'Times New Roman', serif" font-size="38" font-weight="700">What /no-slop changes</text>
+    <text x="60" y="94" fill="#5f5a52" font-size="18">It coordinates the checks, protects your voice, and makes the final review harder to forget.</text>
+
+    <rect x="60" y="130" width="570" height="420" rx="14" fill="#292621"/>
+    <text x="96" y="181" fill="#efad86" font-size="15" font-weight="800" letter-spacing="1.5">WITHOUT /NO-SLOP</text>
+    <text x="96" y="224" fill="#fffdf8" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="700">Several good skills.</text>
+    <text x="96" y="258" fill="#fffdf8" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="700">No shared process.</text>
+
+    <circle cx="106" cy="315" r="5" fill="#efad86"/>
+    <text x="126" y="321" fill="#fffdf8" font-size="17">You must remember which skill to use.</text>
+    <circle cx="106" cy="365" r="5" fill="#efad86"/>
+    <text x="126" y="371" fill="#fffdf8" font-size="17">General cleanup can flatten your real voice.</text>
+    <circle cx="106" cy="415" r="5" fill="#efad86"/>
+    <text x="126" y="421" fill="#fffdf8" font-size="17">Downloaded skill copies can stop receiving improvements.</text>
+    <circle cx="106" cy="465" r="5" fill="#efad86"/>
+    <text x="126" y="471" fill="#fffdf8" font-size="17">The final review is easy to skip.</text>
+
+    <path d="M675 340 L850 340" stroke="#b85f3d" stroke-width="5" marker-end="url(#arrow)"/>
+    <text x="762" y="316" text-anchor="middle" fill="#7f3f29" font-size="14" font-weight="800" letter-spacing="1.2">ONE ENTRY POINT</text>
+
+    <rect x="900" y="130" width="640" height="420" rx="14" fill="#fffdf8" stroke="#292621" stroke-width="2"/>
+    <text x="936" y="181" fill="#b85f3d" font-size="15" font-weight="800" letter-spacing="1.5">WITH /NO-SLOP</text>
+    <text x="936" y="224" fill="#191816" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="700">The right checks, followed</text>
+    <text x="936" y="258" fill="#191816" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="700">by your voice.</text>
+
+    <circle cx="946" cy="315" r="5" fill="#b85f3d"/>
+    <text x="966" y="309" fill="#191816" font-size="17" font-weight="700">Chooses the writing or interface checks.</text>
+    <text x="966" y="332" fill="#5f5a52" font-size="15">Humanizer + Stop Slop for writing. Taste + Impeccable for interfaces.</text>
+
+    <circle cx="946" cy="375" r="5" fill="#b85f3d"/>
+    <text x="966" y="381" fill="#191816" font-size="17" font-weight="700">Applies your rules and samples after the general cleanup.</text>
+
+    <circle cx="946" cy="425" r="5" fill="#b85f3d"/>
+    <text x="966" y="431" fill="#191816" font-size="17" font-weight="700">Proposes community-skill updates for you to review.</text>
+
+    <circle cx="946" cy="475" r="5" fill="#b85f3d"/>
+    <text x="966" y="469" fill="#191816" font-size="17" font-weight="700">Can catch a missed final review with the optional Stop hook.</text>
+    <text x="966" y="492" fill="#5f5a52" font-size="15">The hook checks the review. It does not rewrite the work.</text>
+
+    <rect x="60" y="580" width="1480" height="42" rx="8" fill="#e9e3d7"/>
+    <text x="800" y="607" text-anchor="middle" fill="#4f4a43" font-size="16" font-weight="700">Starter rules and community skills are included. Your personal samples, exceptions, and learned corrections start empty.</text>
+  </g>
+</svg>

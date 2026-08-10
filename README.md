@@ -1,141 +1,221 @@
-# no-slop
+# No Slop: Clean AI Output Without Flattening Your Voice
+
+AI output has two separate problems. Writing can sound generated, interfaces
+can look generated, and a generic cleanup pass can remove the parts that sound
+like you.
+
+No Slop is one Claude Code skill that coordinates the right checks for writing
+or interfaces, applies your own rules and examples afterward, and performs a
+final review before the work is finished.
+
+![What no-slop changes](assets/no-slop-at-a-glance.svg)
+
+```text
+Writing:    Humanizer -> Stop Slop -> your voice -> final review
+Interface:  Taste -> Impeccable, when installed -> your taste -> final review
+```
+
+The goal is public-facing work that sounds and looks intentional while keeping
+your documented voice in control of the result.
+
+## How it works
+
+No Slop uses two layers followed by a final review:
+
+1. **General cleanup.** Writing uses the Humanizer and Stop Slop skills.
+   Interfaces use the matching Taste skill and the separate Impeccable audit
+   skill when it is installed.
+2. **Your voice and taste.** Your rules, real writing samples, exceptions, and
+   saved corrections are applied after the general cleanup.
+3. **Final review.** Claude rereads the finished work, identifies anything that
+   still feels generic or unverified, and fixes it.
+
+An optional Stop hook runs when Claude tries to finish. It checks that the final
+review happened and sends Claude back if it did not. The hook does not rewrite
+the work itself.
 
 ![How the no-slop Claude Code skill cleans public-facing work](assets/no-slop-flow.svg)
 
-One Claude Code entry point for both halves of the AI slop problem: text that
-sounds generated, and interfaces that look generated. Claude can load it when a
-task matches its description. It includes an updater, an optional weekly
-schedule, and a voice layer that records corrections when the agent follows the
-skill.
+## One public package, personal voice stays local
 
-It is a wrapper, not a rewrite. The detection work belongs to other people's
-skills, copied into this folder and kept current automatically. What this adds
-is one set of instructions that chooses the right skill, then applies your
-voice and design preferences after the general cleanup.
+This public repository contains the reusable skill, starter rules, copied
+community skills, updater, and optional hook installer. It does not contain a
+real user's writing samples or correction history.
 
-## Why a wrapper
+The public template starts with:
 
-Anti-slop skills are easy to collect and hard to use. You end up with five that
-overlap, no rule for which to reach for, and a personal set of preferences
-living in your head instead of in a file. Meanwhile the good ones drift out of
-date, because vendoring is a one-time copy that nobody repeats.
+- a `voice/corpus/` guide with no personal writing or transcript samples;
+- no personal exceptions in `voice/carve-outs.md`;
+- no saved corrections in `voice/learned.md`; and
+- starter prose and design rules that you can keep, change, or remove.
 
-This fixes those three things and nothing else.
+This repository intentionally has no `STATE.md`. The private working copy used
+to prepare releases has its own project state, personal samples, and learned
+rules. Those files are reset before a public release is prepared.
 
-## Layers
+## What is included
 
-```
-voice/         yours, hand-maintained, applied last, always wins
-upstream/      other people's, auto-updated, never hand-edited
-```
+| Piece | What it does |
+| --- | --- |
+| [`SKILL.md`](SKILL.md) | Chooses the writing or interface path, applies your voice last, and requires the final review |
+| [`voice/`](voice/) | Holds starter rules, writing samples, exceptions, and corrections learned from real feedback |
+| [`upstream/`](upstream/) | Holds licensed copies of Humanizer, Stop Slop, and the Taste design skills |
+| [`scripts/update.mjs`](scripts/update.mjs) | Checks the original community repositories and updates only the copied skill files |
+| [`scripts/hook.mjs`](scripts/hook.mjs) | Installs, reports, or removes the optional Claude Code Stop hook |
+| [`.github/workflows/update.yml`](.github/workflows/update.yml) | Runs tests and proposes copied-skill updates for review each week |
 
-The precedence matters. An upstream skill can be excellent and still be wrong
-for you. Rather than forking it and losing updates forever, you write the
-disagreement down in `voice/` and let it override.
+Impeccable stays a separate skill because it has its own commands and design
+detector. No Slop calls for it on interface work when it is available. It does
+not silently install it.
+
+## Where it fits
+
+No Slop coordinates existing skills and applies personal preferences inside
+Claude Code. Model training, external AI-content detection, factual
+verification, and software testing remain separate concerns.
+
+### Limits
+
+- External detectors make their own classifications. No Slop offers no score or
+  guarantee about how they label the result.
+- Claims, links, tests, and browser behavior still need their normal checks.
+- Local clones change only when their own updater or Git workflow runs.
+- Voice learning requires the agent to save an approved rule or a correction.
+- Documented personal rules override copied community defaults.
+
+The included hook installer targets Claude Code. The Markdown instructions can
+inform another agent, but installation and automatic skill loading differ by
+client.
+
+## Before you start
+
+You need:
+
+- Claude Code with skill support;
+- Git, if you install by cloning or use the updater; and
+- Node.js 18 or later for the updater, tests, and hook installer.
+
+For useful voice calibration, prepare four or five things you wrote yourself.
+Emails, messages, posts, READMEs, and raw video transcripts all work. Dictated
+or quickly written samples are often more useful than polished copy because
+they contain less performance and editing.
 
 ## Install
 
-Clone into your Claude Code skills directory:
+macOS or Linux:
 
 ```bash
 git clone https://github.com/Rlegaspi562/no-slop.git ~/.claude/skills/no-slop
 ```
 
-On Windows (PowerShell):
+Windows PowerShell:
 
 ```powershell
-git clone https://github.com/Rlegaspi562/no-slop.git "$env:USERPROFILE\.claude\skills\no-slop"
+git clone https://github.com/Rlegaspi562/no-slop.git "$HOME\.claude\skills\no-slop"
 ```
 
-It needs Node 18 or later for the updater, and `git` on PATH. Nothing else.
-After that it triggers on its own whenever you ask for writing or UI work, or
-invoke it directly as `/no-slop`.
+Then run:
+
+```text
+/no-slop voice
+```
+
+Give Claude your writing samples, or use the guided brain-dump option if you do
+not have samples ready. Claude drafts voice rules from the evidence and asks
+you to approve them before they become standing rules.
+
+After setup, invoke `/no-slop` directly or ask Claude for public-facing writing
+or interface work that matches the skill description.
 
 ## Make it yours
 
-The whole point of the split is that you only have to write one directory.
+| File or folder | What belongs there |
+| --- | --- |
+| `voice/prose.md` | Your standing writing rules and banned patterns |
+| `voice/design.md` | Your standing visual preferences and design limits |
+| `voice/corpus/` | Real examples of how you write or speak |
+| `voice/carve-outs.md` | Exceptions that may look wrong to a general rule but are genuinely yours |
+| `voice/learned.md` | Corrections recorded after you reject or rewrite Claude's output |
 
-1. Give it your voice. Run `/no-slop voice` and either drop four or five
-   things you have written into `voice/corpus/` (dictated or fired-off text
-   beats polished text, because it is the least performed), or, if you have
-   nothing saved, brain dump: talk about any topic for a few minutes and the
-   agent drafts your voice from how you speak. You approve every rule before
-   it lands.
-2. Open `voice/prose.md` and delete every rule that is not yours. The defaults
-   are one person's preferences, including a hard ban on em dashes. Yours will
-   differ.
-3. Do the same for `voice/design.md`.
-4. Leave `voice/learned.md` alone. When this skill is active, it tells the agent
-   to record voice and taste corrections there.
+When a community rule conflicts with these files, your documented voice and
+taste win. That precedence is the point of the skill.
 
-Nothing in `upstream/` needs your attention, now or later.
+## Protect personal voice data
 
-## Updating
+Writing samples, transcripts, exceptions, and correction history can contain
+private information. Treat a personalized No Slop checkout as private, even
+though the download repository is public.
 
-The included GitHub Action maintains this repository and opens a pull request
-when something moves upstream. A local clone does not receive that pull request
-by itself. For your own automatic updates, fork the repository and enable the
-workflow, or run `/no-slop schedule` to create a local weekly task. GitHub forks
-start with scheduled workflows disabled.
+Before pushing a personalized fork or clone, inspect the diff and confirm that
+it contains no private messages, client material, unpublished scripts,
+credentials, or personal transcripts. The updater protects `voice/` from being
+overwritten. That protection does not stop Git from publishing files you choose
+to commit.
 
-To enable the workflow on a fork: repository Settings > Actions > General >
-Workflow permissions > allow Actions to create pull requests. Or run the
-updater by hand:
+## Update the copied community skills
 
-```bash
-node scripts/update.mjs           # pull anything that moved
-node scripts/update.mjs --check   # report only, write nothing
-```
+The repository includes a weekly GitHub Action. It checks the original
+community repositories and opens a pull request when copied files changed. A
+pull request is a proposed update you can inspect before accepting it.
 
-The updater re-clones each source in `sources.json`, compares against the
-pinned commit, copies what changed, removes managed files deleted upstream,
-refreshes each `SOURCE.md`, prints a per-file diff summary, and repins.
-It refuses to write to any protected path, so `voice/` cannot be clobbered by
-an upstream change. That refusal is enforced in the script at the path level,
-not just documented here.
+The updater is blocked from writing to `voice/`, `SKILL.md`, `README.md`, the
+scripts, or the reference documentation. It can change only the copied files
+under `upstream/` and their recorded source versions.
 
-Run the repeatable tests with:
+A local clone does not receive a pull request from this public repository. For
+your own automatic updates, fork the repository, enable its scheduled workflow,
+and allow GitHub Actions to create pull requests. GitHub disables scheduled
+workflows on new public forks until you enable them.
+
+You can also run the updater yourself:
 
 ```bash
-node --test scripts/*.test.mjs
+node scripts/update.mjs           # update copied community skills
+node scripts/update.mjs --check   # report changes without writing
 ```
 
-## Final audit hook
+For local scheduling choices, see
+[`reference/scheduling.md`](reference/scheduling.md).
 
-`/no-slop hook` installs an optional prompt-based Stop hook. It checks the turn
-when Claude is about to finish and sends Claude back when a public-facing
-deliverable has no recorded no-slop audit. See `reference/hooks.md` for the
-tradeoffs and removal command.
+## Optional final review hook
 
-In the workflow, the hook sits after the final review and before Claude is
-allowed to stop. It does not rewrite the work or choose the writing and design
-skills. It only checks that the review happened. It is also separate from the
-weekly GitHub update workflow.
+The Stop hook runs after drafting, when Claude tries to finish. If the final
+response does not show that the No Slop review happened, the hook blocks the
+stop and asks Claude to perform the review.
 
-In the workflow, the hook sits after the final review and before Claude is
-allowed to stop. It does not rewrite the work or choose the writing and design
-skills. It only checks that the review happened. It is also separate from the
-weekly GitHub update workflow.
+Install, inspect, or remove it with:
+
+```bash
+node scripts/hook.mjs install
+node scripts/hook.mjs status
+node scripts/hook.mjs remove
+```
+
+The installer merges its marked handler into `~/.claude/settings.json`, keeps
+other hooks intact, and creates `settings.json.no-slop.bak` before the first
+change. Restart Claude Code after installing or removing it. The hook uses a
+fast model call whenever Claude tries to stop, so it adds some latency.
+
+See [`reference/hooks.md`](reference/hooks.md) for the complete behavior and
+limits.
 
 ## Copied community skills
 
-| Source | Author | License | Covers |
-| ------ | ------ | ------- | ------ |
-| [blader/humanizer](https://github.com/blader/humanizer) | Siqi Chen | MIT | Prose. Pattern catalogue derived from Wikipedia's "Signs of AI writing." |
-| [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop) | Hardik Pandya | MIT | Prose. A stricter editing pass for directness, rhythm, specificity, trust, and density. |
-| [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill) | leonxlnx | MIT | Design. Thirteen skills covering direction, brand, image-to-code, and redesign. |
+| Source | Author | License | Role in No Slop |
+| --- | --- | --- | --- |
+| [blader/humanizer](https://github.com/blader/humanizer) | Siqi Chen | MIT | Finds a broad catalogue of common AI-writing patterns |
+| [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop) | Hardik Pandya | MIT | Adds a stricter pass for directness, rhythm, specificity, trust, and density |
+| [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill) | leonxlnx | MIT | Provides thirteen skills for visual direction, branding, redesign, and reference-driven interface work |
 
-All three are copied with their licenses. Exact commits and fetch dates are in
-`sources.json` and in each `SOURCE.md`.
+The copied files keep their original licenses. Exact commits and fetch dates
+are recorded in [`sources.json`](sources.json) and each `SOURCE.md`.
 
-## Public template model
+## Start small
 
-This repository is the sanitized download, not the working source of one
-person's private voice. It intentionally has no `STATE.md`. New releases are
-prepared from the private working skill, then the corpus, learned entries, and
-personal carve-outs are reset before publishing here.
+Install the skill, add one real transcript or a few emails, and invoke No Slop
+manually on one draft. Add the Stop hook and automatic updates after you trust
+the workflow and want stricter enforcement.
 
-## License
-
-MIT for the wrapper: `SKILL.md`, `voice/`, `scripts/`, `reference/`. Vendored
-code under `upstream/` keeps its own license, included alongside it.
+MIT licensed for the No Slop wrapper. Built by
+[Rumil Legaspi](https://github.com/Rlegaspi562). Copied community files retain
+their original licenses.
