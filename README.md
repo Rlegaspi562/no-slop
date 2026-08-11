@@ -1,13 +1,20 @@
 # Anti-Slop Skills Consolidated, Routed, and Updated in One Skill: /no-slop
 
-/no-slop is an Agent Skill that coordinates
+/no-slop is an agent skill that is the one stop shop for all of the "best"
+anti slop AI skills for both writing and design.
+
+One goal: Unslop everything.
+
+Right now it coordinates some of the top
 [Humanizer](https://github.com/blader/humanizer),
 [Stop Slop](https://github.com/hardikpandya/stop-slop),
 [Taste Skill](https://github.com/leonxlnx/taste-skill), and
-[Impeccable](https://github.com/pbakaus/impeccable) when it is installed
-separately. It chooses the appropriate path, runs the skills in a deliberate
-order, applies your own rules and examples, and performs a final review before
-the work is finished.
+[Impeccable](https://github.com/pbakaus/impeccable), with edits to come as
+updates arise.
+
+It chooses the appropriate path, runs the skills in a deliberate order, applies
+your own rules and examples, and performs a final review before the work is
+finished.
 
 Here, **your agent** means whatever LLM-powered agent you use. The core
 `SKILL.md` is designed to work in agents that support Agent Skills or Markdown
