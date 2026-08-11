@@ -6,13 +6,13 @@ import path from 'node:path';
 
 const MARKER = '[no-slop-stop-gate-v1]';
 const PROMPT = `${MARKER}
-You are the final no-slop quality gate for Claude Code. Inspect the Stop hook input, especially last_assistant_message.
+You are the final no-slop quality gate for whatever LLM-powered agent is running. Inspect the stop or completion hook input, especially the agent's final message.
 
 Return {"ok": true} when the turn is internal analysis, code-only work with no public-facing copy, logs, status, a quick conversational answer, or when the final response clearly says the public-facing deliverable received a no-slop audit after drafting.
 
 Return {"ok": false, "reason": "Run the no-slop skill in embedded mode on every public-facing prose or interface deliverable, fix the findings, then finish with a brief 'No-slop audit passed' note."} when the agent is about to deliver or claim completion of prose, a document, a script, marketing copy, a presentation, a website, an interface, or another artifact meant for another person and there is no clear evidence of a final no-slop audit.
 
-Do not demand the gate for internal scratch work. If stop_hook_active is true, avoid a loop: allow stopping once the agent has addressed the prior reason or clearly states that the work is exempt.`;
+Do not demand the gate for internal scratch work. If the hook input says a prior stop check is already active, avoid a loop: allow stopping once the agent has addressed the prior reason or clearly states that the work is exempt.`;
 
 const args = process.argv.slice(2);
 const action = args[0] ?? 'status';
@@ -21,8 +21,8 @@ const settingsPath = settingsIndex === -1
   ? path.join(os.homedir(), '.claude', 'settings.json')
   : path.resolve(args[settingsIndex + 1]);
 
-if (!['install', 'remove', 'status'].includes(action)) {
-  console.error('Usage: node scripts/hook.mjs <install|remove|status> [--settings path]');
+if (!['install', 'remove', 'status', 'prompt'].includes(action)) {
+  console.error('Usage: node scripts/hook.mjs <install|remove|status|prompt> [--settings path]');
   process.exit(1);
 }
 if (settingsIndex !== -1 && !args[settingsIndex + 1]) {
@@ -75,6 +75,10 @@ function writeSettings(settings) {
 }
 
 try {
+  if (action === 'prompt') {
+    console.log(PROMPT);
+    process.exit(0);
+  }
   const settings = readSettings();
   if (action === 'status') {
     console.log(hasHook(settings) ? `installed: ${settingsPath}` : `not installed: ${settingsPath}`);

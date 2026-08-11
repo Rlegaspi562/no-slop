@@ -1,58 +1,59 @@
-# Final audit hook
+# Portable final-review completion hook
 
-Claude Code chooses whether to load a skill from its description. A hook is the
-deterministic backstop when the final audit must not depend on that choice.
+The hook is optional. `/no-slop` already tells the agent to perform a final
+review. The hook is a safety net for cases where an agent tries to finish
+without showing that the review happened.
 
-`no-slop` uses a prompt-based `Stop` hook. When the Claude Code agent is about
-to finish a
-turn, a fast model checks whether the result contains a public-facing
-deliverable and whether the final response records a no-slop audit. If the
-audit is missing, the hook prevents the turn from ending and tells the agent to
-run the skill in embedded mode, fix the result, and try again.
+## Use the same check with any compatible agent
 
-## Where it runs
+Print the agent-agnostic checker prompt:
 
-The hook runs after the agent has drafted the work, at the moment it tries to
-stop. The final review should already have happened. If the evidence is
-missing, the hook sends the agent back to that review step. It does not participate
-in skill selection, writing cleanup, voice calibration, or weekly GitHub
-updates.
+```bash
+node scripts/hook.mjs prompt
+```
 
-## Install
+If your agent supports a stop or completion hook that can send work back before
+the turn ends:
+
+1. Add the printed prompt using that agent's documented hook format.
+2. Pass the agent's final message or completion event to the checker.
+3. When the checker returns `{"ok": false, "reason": "..."}`, send the reason
+   back to the agent and prevent completion until it responds.
+4. When it returns `{"ok": true}`, allow the agent to finish.
+
+Hook schemas and event names differ between agents. Use the agent's own
+documentation rather than copying the Claude Code settings structure. If the
+agent has no compatible completion hook, skip this setup. The skill still works
+without it.
+
+## Included Claude Code adapter
+
+The included installer knows how to merge the prompt into Claude Code's
+`~/.claude/settings.json` file:
 
 ```bash
 node scripts/hook.mjs install
-```
-
-The installer merges one marked handler into `~/.claude/settings.json`, keeps
-other hooks intact, and saves the prior file as `settings.json.no-slop.bak`.
-
-Check or remove it:
-
-```bash
 node scripts/hook.mjs status
 node scripts/hook.mjs remove
 ```
 
-Restart Claude Code after installing or removing the hook.
+It keeps other hooks intact and saves the original settings file as
+`settings.json.no-slop.bak` before the first change. Restart Claude Code after
+installing or removing it.
 
-## Why Stop
+## What the checker does
 
-- `UserPromptSubmit` runs before the deliverable exists and would spend a model
-  call classifying every prompt.
-- `PostToolUse` sees individual file edits, not the finished deliverable.
-- `Stop` sees the final response and can send the agent back for one last pass.
+The checker runs after drafting, when the agent tries to stop. It looks at the
+final message for a public-facing deliverable and evidence that the
+`/no-slop` review happened. If that evidence is missing, it asks the agent to
+perform the review and try again.
 
-## Limits
+It does not select skills, rewrite the deliverable, update source files, verify
+facts, run tests, inspect links, or replace the Impeccable detector.
 
-This is a judgment gate, not a content scanner. The prompt hook primarily sees
-The hook reads the agent's final message, so the skill must finish
-public-facing work with a
-short `No-slop audit passed` note. The hook does not prove that every claim is
-true, and it does not replace tests, link checks, browser inspection, or the
-mechanical `impeccable` detector for interfaces.
+## Tradeoff
 
-The hook runs on every attempted stop and uses a fast model call. Remove it if
-the extra latency is not worth the enforcement. A heavier agent-based Stop hook
-could inspect conversation files and deliverables directly, but that is more
-costly and is intentionally not the default.
+A prompt-based hook adds another model call and some latency whenever the agent
+tries to finish. Use it when consistently completing the final review matters
+more than the extra call. Skip it when the skill instructions alone are
+reliable enough for your workflow.

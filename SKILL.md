@@ -1,8 +1,6 @@
 ---
 name: no-slop
-description: The single entry point for making public-facing work not sound or look AI-generated. The agent should load it for prose another person will read (README, docs, email, post, video script, product copy, cover letter), interfaces and visual artifacts (website, landing page, dashboard, deck, asset), requests to humanize text or remove AI slop, and voice or writing-sample setup. Routes to copied community skills (humanizer, stop-slop, taste) and applies the user's voice layer last, which always wins. Not for quick conversational answers, internal scratch work, logs, or code with no public-facing copy.
-user-invocable: true
-argument-hint: "[update | schedule | hook | learn | voice | status] [target]"
+description: The single entry point for making public-facing work not sound or look AI-generated. The agent should load it for prose another person will read (README, docs, email, post, video script, product copy, cover letter), interfaces and visual artifacts (website, landing page, dashboard, deck, asset), requests to humanize text or remove AI slop, and voice or writing-sample setup. Routes to copied source skills (humanizer, stop-slop, taste) and applies the user's voice layer last, which always wins. Not for quick conversational answers, internal scratch work, logs, or code with no public-facing copy.
 license: MIT
 ---
 
@@ -15,7 +13,7 @@ voice and taste afterward, and requires a final review.
 Run this sequence:
 
 ```
-1. General cleanup    copied community skills: /humanizer + /stop-slop for
+1. General cleanup    copied source skills: /humanizer + /stop-slop for
                       writing, or /taste + /impeccable for interfaces
 2. Personal voice     the user's own rules, samples, exceptions, and corrections
 3. Final review       reread the finished work, find what remains, and fix it
@@ -24,15 +22,16 @@ Run this sequence:
 The coordination is the main value. Using one source skill alone is valid for a
 narrow job, but it leaves selection, ordering, updates, personal corrections,
 and final review to the user or agent each time. Keep two improvement paths
-separate: `scripts/update.mjs` refreshes only copied community files after
+separate: `scripts/update.mjs` refreshes only copied source files after
 review, while approved feedback is saved under `voice/` for later work. Never
-let a community update overwrite the personal path.
+let a source update overwrite the personal path.
 
 **Use agent-agnostic language.** In these instructions, "the agent" means
-whatever LLM-powered agent is running the skill. The core Markdown workflow is
-portable to systems that can load Agent Skills or instruction folders. Name
-Claude Code only when discussing its exact skill path, settings file, or Stop
-hook. Do not imply that the included hook installer works in another agent.
+whatever LLM-powered agent is running the skill. The core Markdown workflow and
+the prompt printed by `node scripts/hook.mjs prompt` are portable to systems
+that can load Agent Skills or instruction folders. Hook configuration is not
+portable because each agent uses a different format. Name Claude Code only
+when discussing its exact skill path, settings file, or included hook adapter.
 
 **The voice wins.** When an upstream file and a `voice/` file disagree, the
 voice is correct. Override silently. Do not ask the user to resolve it.
@@ -116,7 +115,7 @@ tuned to this user.
 structures, passive abstractions, specificity, sentence rhythm, directness,
 trust, authenticity, and density. Run it after `humanizer`, use its score as a
 revision signal rather than a claim of objective quality, then let `prose.md`
-and the user's writing samples correct both community skills.
+and the user's writing samples correct both source skills.
 
 Where they conflict, common cases:
 
@@ -201,11 +200,14 @@ Offer to create a recurring routine that runs the updater. See
 
 ### `/no-slop hook`
 
-Offer the final audit gate described in `reference/hooks.md`. Install it with
-`node scripts/hook.mjs install` only after the user agrees. Use `status` or
-`remove` as the second argument when requested. The hook is a deterministic
-backstop for the final audit, not a replacement for this skill's routing or
-voice pass.
+Offer the optional completion check described in `reference/hooks.md`. First
+identify the agent. If it is Claude Code, install the included adapter with
+`node scripts/hook.mjs install` only after the user agrees; use `status` or
+`remove` when requested. For another agent with stop or completion hooks, run
+`node scripts/hook.mjs prompt` and adapt that prompt to the agent's documented
+hook format. Do not invent a configuration schema. If the agent has no hook
+that can send work back before stopping, skip setup. The hook is a backstop for
+the final review, not a replacement for this skill's routing or voice pass.
 
 ### `/no-slop learn`
 

@@ -42,3 +42,11 @@ test('refuses to overwrite invalid settings JSON', () => {
   assert.equal(result.status, 1);
   assert.equal(fs.readFileSync(settingsPath, 'utf8'), '{ invalid');
 });
+
+test('prints a portable completion-hook prompt', () => {
+  const result = spawnSync(process.execPath, [SCRIPT, 'prompt'], { encoding: 'utf8' });
+  assert.equal(result.status, 0);
+  assert.match(result.stdout, /whatever LLM-powered agent/i);
+  assert.match(result.stdout, /stop or completion hook input/);
+  assert.doesNotMatch(result.stdout, /Claude Code/);
+});

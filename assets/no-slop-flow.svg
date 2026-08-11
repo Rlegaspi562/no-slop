@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="2115" viewBox="0 0 960 2115" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="2320" viewBox="0 0 960 2320" role="img" aria-labelledby="title desc">
   <title id="title">How the no-slop Agent Skill works and improves</title>
-  <desc id="desc">A readable top-down diagram. The user's LLM-powered agent receives a request for public-facing work. The no-slop skill chooses a writing route or interface route. Writing uses the humanizer and stop-slop skills. Interfaces use the taste skill and, when installed, impeccable. No-slop then applies personal rules, samples, exceptions, and saved corrections before a final review. An optional Claude Code Stop hook can check that the review happened. A separate section shows reviewable community updates and approved personal corrections saved for later work.</desc>
+  <desc id="desc">A readable top-down diagram. The user's LLM-powered agent receives a request for public-facing work. The no-slop skill chooses a writing route or interface route. Writing uses the humanizer and stop-slop skills. Interfaces use the taste skill and, when installed, impeccable. No-slop then applies personal rules, samples, exceptions, and saved corrections before a final review. An optional completion hook can check that the review happened in any agent with a compatible hook system. A separate section explains the optional weekly GitHub workflow and how approved personal corrections improve later work.</desc>
 
   <defs>
     <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
@@ -8,7 +8,7 @@
     </marker>
   </defs>
 
-  <rect width="960" height="2160" fill="#f5f1e8"/>
+  <rect width="960" height="2320" fill="#f5f1e8"/>
 
   <g font-family="Arial, Helvetica, sans-serif">
     <text x="46" y="60" fill="#191816" font-family="Georgia, 'Times New Roman', serif" font-size="40" font-weight="700">How the /no-slop skill runs</text>
@@ -66,49 +66,50 @@
 
     <path d="M480 1223 L480 1262" stroke="#bd5f3b" stroke-width="4" marker-end="url(#arrow)"/>
 
-    <rect x="46" y="1282" width="868" height="152" rx="14" fill="#fff7ef" stroke="#bd5f3b" stroke-width="2"/>
-    <text x="78" y="1327" fill="#8b432c" font-size="18" font-weight="800">Optional Stop hook checks that the review happened</text>
-    <text x="78" y="1365" fill="#191816" font-size="20" font-weight="700">When your agent tries to finish, the hook sends it back if the review is missing.</text>
-    <text x="78" y="1400" fill="#57524b" font-size="17">The hook does not rewrite the work. It only checks the completion step.</text>
+    <rect x="46" y="1282" width="868" height="180" rx="14" fill="#fff7ef" stroke="#bd5f3b" stroke-width="2"/>
+    <text x="78" y="1325" fill="#8b432c" font-size="18" font-weight="800">Optional completion hook checks that the review happened</text>
+    <text x="78" y="1362" fill="#191816" font-size="19" font-weight="700">If your agent supports stop or completion hooks, add the /no-slop check there.</text>
+    <text x="78" y="1396" fill="#57524b" font-size="17">No compatible hook? Skip it. /no-slop still performs the review itself.</text>
+    <text x="78" y="1428" fill="#57524b" font-size="16">The included installer configures Claude Code; other agents use their own hook format.</text>
 
-    <path d="M480 1435 L480 1472" stroke="#bd5f3b" stroke-width="4" marker-end="url(#arrow)"/>
-    <rect x="115" y="1492" width="730" height="64" rx="10" fill="#292621"/>
-    <text x="480" y="1533" text-anchor="middle" fill="#fffdf8" font-size="21" font-weight="800">Result: public-facing work that sounds like you and looks intentional.</text>
+    <path d="M480 1463 L480 1500" stroke="#bd5f3b" stroke-width="4" marker-end="url(#arrow)"/>
+    <rect x="46" y="1520" width="868" height="86" rx="10" fill="#292621"/>
+    <text x="480" y="1554" text-anchor="middle" fill="#fffdf8" font-size="21" font-weight="800">Result: public-facing work that sounds like you</text>
+    <text x="480" y="1581" text-anchor="middle" fill="#fffdf8" font-size="21" font-weight="800">and looks intentional.</text>
 
-    <line x1="46" y1="1610" x2="914" y2="1610" stroke="#a79e91" stroke-width="2"/>
-    <text x="46" y="1664" fill="#191816" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="700">How later requests improve</text>
-    <text x="46" y="1698" fill="#57524b" font-size="19">Community changes and personal corrections use separate, protected paths.</text>
+    <line x1="46" y1="1655" x2="914" y2="1655" stroke="#a79e91" stroke-width="2"/>
+    <text x="46" y="1709" fill="#191816" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="700">How later requests improve</text>
+    <text x="46" y="1743" fill="#57524b" font-size="19">Source updates and your personal corrections follow separate paths.</text>
 
-    <rect x="46" y="1740" width="414" height="352" rx="14" fill="#292621"/>
-    <text x="76" y="1785" fill="#f2aa83" font-size="20" font-weight="800">Community skill updates</text>
-    <text x="76" y="1817" fill="#d8d0c4" font-size="17">When the scheduled GitHub task is enabled:</text>
+    <rect x="46" y="1785" width="868" height="300" rx="14" fill="#292621"/>
+    <text x="76" y="1828" fill="#f2aa83" font-size="20" font-weight="800">Optional weekly source check on GitHub</text>
+    <text x="76" y="1860" fill="#fffdf8" font-size="17" font-weight="700">Workflow file: .github/workflows/update.yml</text>
+    <text x="76" y="1888" fill="#d8d0c4" font-size="17">It runs every Monday only in a GitHub repository where you enable it.</text>
 
-    <circle cx="91" cy="1861" r="16" fill="#bd5f3b"/>
-    <text x="91" y="1867" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">1</text>
-    <text x="120" y="1867" fill="#fffdf8" font-size="18" font-weight="700">Check the creators' repositories.</text>
-    <circle cx="91" cy="1923" r="16" fill="#bd5f3b"/>
-    <text x="91" y="1929" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">2</text>
-    <text x="120" y="1918" fill="#fffdf8" font-size="18" font-weight="700">Open a proposed update</text>
-    <text x="120" y="1943" fill="#d8d0c4" font-size="17">when copied files changed.</text>
-    <circle cx="91" cy="1992" r="16" fill="#bd5f3b"/>
-    <text x="91" y="1998" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">3</text>
-    <text x="120" y="1987" fill="#fffdf8" font-size="18" font-weight="700">You review and accept it.</text>
-    <text x="120" y="2012" fill="#d8d0c4" font-size="17">Nothing changes before approval.</text>
+    <circle cx="91" cy="1930" r="16" fill="#bd5f3b"/>
+    <text x="91" y="1936" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">1</text>
+    <text x="120" y="1936" fill="#fffdf8" font-size="17" font-weight="700">GitHub checks the original skill repositories for newer copied files.</text>
+    <circle cx="91" cy="1985" r="16" fill="#bd5f3b"/>
+    <text x="91" y="1991" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">2</text>
+    <text x="120" y="1991" fill="#fffdf8" font-size="17" font-weight="700">If files changed, GitHub opens a pull request, which is a proposed update.</text>
+    <circle cx="91" cy="2040" r="16" fill="#bd5f3b"/>
+    <text x="91" y="2046" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">3</text>
+    <text x="120" y="2046" fill="#fffdf8" font-size="17" font-weight="700">You inspect and merge it. Nothing changes until you approve.</text>
 
-    <rect x="500" y="1740" width="414" height="352" rx="14" fill="#fffdf8" stroke="#292621" stroke-width="2"/>
-    <text x="530" y="1785" fill="#8b432c" font-size="20" font-weight="800">Your voice and taste updates</text>
-    <text x="530" y="1817" fill="#57524b" font-size="17">When you approve a correction:</text>
+    <rect x="46" y="2110" width="868" height="180" rx="14" fill="#fffdf8" stroke="#292621" stroke-width="2"/>
+    <text x="76" y="2153" fill="#8b432c" font-size="20" font-weight="800">Your approved corrections improve later requests</text>
+    <text x="76" y="2185" fill="#57524b" font-size="17">This path stays in your personal voice files.</text>
 
-    <circle cx="545" cy="1861" r="16" fill="#bd5f3b"/>
-    <text x="545" y="1867" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">1</text>
-    <text x="574" y="1867" fill="#191816" font-size="18" font-weight="700">You correct the output.</text>
-    <circle cx="545" cy="1923" r="16" fill="#bd5f3b"/>
-    <text x="545" y="1929" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">2</text>
-    <text x="574" y="1918" fill="#191816" font-size="18" font-weight="700">The agent saves the rule</text>
-    <text x="574" y="1943" fill="#57524b" font-size="17">in your personal files.</text>
-    <circle cx="545" cy="1992" r="16" fill="#bd5f3b"/>
-    <text x="545" y="1998" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">3</text>
-    <text x="574" y="1987" fill="#191816" font-size="18" font-weight="700">Later work applies it</text>
-    <text x="574" y="2012" fill="#57524b" font-size="17">after the broad checks.</text>
+    <circle cx="91" cy="2235" r="16" fill="#bd5f3b"/>
+    <text x="91" y="2241" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">1</text>
+    <text x="120" y="2241" fill="#191816" font-size="17" font-weight="700">You correct the output.</text>
+    <circle cx="373" cy="2235" r="16" fill="#bd5f3b"/>
+    <text x="373" y="2241" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">2</text>
+    <text x="402" y="2241" fill="#191816" font-size="17" font-weight="700">Your agent saves the rule.</text>
+    <circle cx="687" cy="2235" r="16" fill="#bd5f3b"/>
+    <text x="687" y="2241" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">3</text>
+    <text x="716" y="2241" fill="#191816" font-size="17" font-weight="700">Later work uses it.</text>
+    <text x="402" y="2268" fill="#57524b" font-size="16">in your personal files</text>
+    <text x="716" y="2268" fill="#57524b" font-size="16">after the source checks</text>
   </g>
 </svg>

@@ -11,7 +11,7 @@ question has already been answered. Say nothing.
 
 If it does not, ask once:
 
-> Want me to set up automatic updates for the upstream skills in `no-slop`?
+> Want me to set up automatic updates for the included source skills in `no-slop`?
 > They currently update only when you run `/no-slop update`.
 
 Then write the answer, including a decline, so it is never asked again:
@@ -32,7 +32,7 @@ Do not re-ask after a decline. If the user later wants it, they will run
 
 Best fit for "never worry about it again," because it runs whether or not the
 machine is on and whether or not anyone opens an agent session. It opens a pull
-request rather than pushing to the default branch, so upstream changes are
+request rather than pushing to the default branch, so source changes are
 reviewed before they land.
 
 A ready workflow is at `reference/update-workflow.yml`. Install it:
@@ -57,11 +57,11 @@ or when the repo is not on GitHub. Invoke the `schedule` skill and create a
 weekly routine whose prompt is:
 
 > Run `node scripts/update.mjs` in the `no-slop` skill. If anything changed,
-> summarize what moved upstream and whether it conflicts with anything in
+> summarize what changed in the original repositories and whether it conflicts with anything in
 > `voice/`, then commit on a branch.
 
 The conflict check is the part a plain cron job cannot do, and it is the reason
-to pick this over option 1. An upstream that starts recommending something the
+to pick this over option 1. A source skill that starts recommending something the
 voice layer forbids is worth a sentence of warning.
 
 ## Option 3: An OS-level task
@@ -79,7 +79,7 @@ time you look.
 
 ## Cadence
 
-Weekly. These upstreams move in bursts of a few commits and then sit still for
+Weekly. These source repositories move in bursts of a few commits and then sit still for
 weeks. Daily produces noise with no new information, and monthly means a large
 unfamiliar diff whenever it does fire.
 
