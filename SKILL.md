@@ -8,10 +8,11 @@ license: MIT
 
 # No Slop
 
-One skill for both halves of the problem. Text that sounds generated, and
-interfaces that look generated.
+One coordinator for public-facing writing and interfaces. It chooses the
+appropriate source skills, runs them in a deliberate order, applies the user's
+voice and taste afterward, and requires a final review.
 
-Two layers followed by a final review:
+Run this sequence:
 
 ```
 1. General cleanup    copied community skills: humanizer + stop-slop for
@@ -19,6 +20,13 @@ Two layers followed by a final review:
 2. Personal voice     the user's own rules, samples, exceptions, and corrections
 3. Final review       reread the finished work, find what remains, and fix it
 ```
+
+The coordination is the main value. Using one source skill alone is valid for a
+narrow job, but it leaves selection, ordering, updates, personal corrections,
+and final review to the user or agent each time. Keep two improvement paths
+separate: `scripts/update.mjs` refreshes only copied community files after
+review, while approved feedback is saved under `voice/` for later work. Never
+let a community update overwrite the personal path.
 
 **The voice wins.** When an upstream file and a `voice/` file disagree, the
 voice is correct. Override silently. Do not ask the user to resolve it.

@@ -1,60 +1,45 @@
 # No Slop: Clean AI Output Without Flattening Your Voice
 
-AI output has two separate problems. Writing can sound generated, interfaces
-can look generated, and a generic cleanup pass can remove the parts that sound
-like you.
+No Slop is one Claude Code skill that coordinates
+[Humanizer](https://github.com/blader/humanizer),
+[Stop Slop](https://github.com/hardikpandya/stop-slop),
+[Taste Skill](https://github.com/leonxlnx/taste-skill), and
+[Impeccable](https://github.com/pbakaus/impeccable) when it is installed
+separately. It chooses the appropriate path, runs the skills in a deliberate
+order, applies your own rules and examples, and performs a final review before
+the work is finished.
 
-No Slop is one Claude Code skill that coordinates the right checks for writing
-or interfaces, applies your own rules and examples afterward, and performs a
-final review before the work is finished.
+The system can keep improving through source updates and approved personal
+feedback. The updater can check the original GitHub repositories for changes
+to the included community skills and propose those changes for review.
+Approved feedback can be saved to your personal `voice/` files and used on
+later work. Source updates keep the shared checks current. Saved feedback stops
+you from having to repeat the same correction.
 
 ![What no-slop changes](assets/no-slop-at-a-glance.svg)
 
-```text
-Writing:    Humanizer -> Stop Slop -> your voice -> final review
-Interface:  Taste -> Impeccable, when installed -> your taste -> final review
-```
+- **Writing:** [Humanizer](https://github.com/blader/humanizer) ->
+  [Stop Slop](https://github.com/hardikpandya/stop-slop) -> your voice -> final
+  review
+- **Interface:** [Taste Skill](https://github.com/leonxlnx/taste-skill) ->
+  [Impeccable](https://github.com/pbakaus/impeccable), when installed -> your
+  taste -> final review
 
 The goal is public-facing work that sounds and looks intentional while keeping
 your documented voice in control of the result.
 
-## Why put these skills together
-
-Good anti-slop skills solve different parts of the problem. Humanizer and Stop
-Slop examine writing. Taste and Impeccable improve visual direction and
-interface quality. When they are installed separately, Claude still has to
-choose the right skill, run the checks in a useful order, and resolve conflicts
-between a general rule and the way you genuinely write or design.
-
-No Slop gives those skills one entry point. It identifies whether a request is
-writing or interface work, uses the matching skills, then applies your personal
-rules and examples after the general cleanup.
-
-The system is designed to keep improving from two sources:
-
-- **The original GitHub repositories.** The updater checks the community skills
-  copied into this package. When the weekly GitHub Action is enabled, it opens a
-  pull request when those sources change so you can inspect and accept the
-  update. You can also run the updater manually.
-- **Your voice and taste.** Approved rules, real examples, exceptions, and
-  corrections are saved in `voice/`. Those files help later work sound and look
-  more like you, even when a general anti-slop rule would remove something that
-  belongs to your style.
-
-These are two separate update paths. GitHub updates refresh the shared skills.
-Voice updates come from feedback you approve and save. This is file-based
-memory, not automatic model training, and a plain local clone changes only when
-its updater runs or the agent saves a voice correction.
-
 ## How it works
 
-No Slop uses two layers followed by a final review:
+No Slop runs this sequence:
 
-1. **General cleanup.** Writing uses the Humanizer and Stop Slop skills.
-   Interfaces use the matching Taste skill and the separate Impeccable audit
-   skill when it is installed.
+1. **Broad anti-slop checks.** Writing uses
+   [Humanizer](https://github.com/blader/humanizer) and
+   [Stop Slop](https://github.com/hardikpandya/stop-slop). Interfaces use the
+   matching [Taste Skill](https://github.com/leonxlnx/taste-skill) guidance and
+   the separate [Impeccable](https://github.com/pbakaus/impeccable) audit when
+   it is installed.
 2. **Your voice and taste.** Your rules, real writing samples, exceptions, and
-   saved corrections are applied after the general cleanup.
+   saved corrections are applied after the broad checks.
 3. **Final review.** Claude rereads the finished work, identifies anything that
    still feels generic or unverified, and fixes it.
 
@@ -63,6 +48,34 @@ review happened and sends Claude back if it did not. The hook does not rewrite
 the work itself.
 
 ![How the no-slop Claude Code skill cleans public-facing work](assets/no-slop-flow.svg)
+
+## What coordination adds
+
+Using one source skill by itself is valid for a narrow job. No Slop is useful
+when you do not want to manage the selection and order on every request.
+
+- **Selection:** Claude chooses the writing or interface path from the request.
+- **Order:** broad checks run before personal voice and taste, so a general rule
+  does not get the final say over your documented style.
+- **Maintenance:** community updates can be reviewed and accepted without
+  replacing your personal files.
+- **Memory:** approved corrections can influence later work instead of
+  disappearing at the end of the conversation.
+- **Completion:** the final review is part of the workflow, with an optional
+  hook that can catch it when it is skipped.
+
+## Reasonable critiques
+
+This approach adds machinery, and that tradeoff should be visible.
+
+| Critique | How No Slop handles it |
+| --- | --- |
+| Several skills can use more context and take longer than one skill. | It runs only for public-facing work, and short outputs can use the personal hard rules without loading every source catalogue. |
+| Stacking rule sets can over-edit the work or flatten a real voice. | Personal rules, samples, and documented exceptions run after the broad checks and override them. |
+| Automatic updates can introduce an unwanted rule. | The scheduled updater proposes a pull request for review. It cannot change `voice/`, the No Slop instructions, or the updater itself. |
+| Saving writing samples and corrections creates a privacy risk. | The public download starts empty. Personalized copies should remain private, and the updater is blocked from changing those files. |
+| A completion hook adds latency and another model call. | The hook is optional, reports what it checks, and can be removed without changing the routing or voice files. |
+| No single system can prove that output is human or factually correct. | No Slop makes no detector guarantee. Claims, links, tests, and browser behavior still require their normal verification. |
 
 ## One public package, personal voice stays local
 
@@ -87,14 +100,14 @@ rules. Those files are reset before a public release is prepared.
 | --- | --- |
 | [`SKILL.md`](SKILL.md) | Chooses the writing or interface path, applies your voice last, and requires the final review |
 | [`voice/`](voice/) | Holds starter rules, writing samples, exceptions, and corrections learned from real feedback |
-| [`upstream/`](upstream/) | Holds licensed copies of Humanizer, Stop Slop, and the Taste design skills |
+| [`upstream/`](upstream/) | Holds licensed copies of [Humanizer](https://github.com/blader/humanizer), [Stop Slop](https://github.com/hardikpandya/stop-slop), and [Taste Skill](https://github.com/leonxlnx/taste-skill) |
 | [`scripts/update.mjs`](scripts/update.mjs) | Checks the original community repositories and updates only the copied skill files |
 | [`scripts/hook.mjs`](scripts/hook.mjs) | Installs, reports, or removes the optional Claude Code Stop hook |
 | [`.github/workflows/update.yml`](.github/workflows/update.yml) | Runs tests and proposes copied-skill updates for review each week |
 
-Impeccable stays a separate skill because it has its own commands and design
-detector. No Slop calls for it on interface work when it is available. It does
-not silently install it.
+[Impeccable](https://github.com/pbakaus/impeccable) stays a separate skill
+because it has its own commands and design detector. No Slop calls for it on
+interface work when it is available. It does not silently install it.
 
 ## Where it fits
 
@@ -230,7 +243,8 @@ limits.
 ## Credits and source references
 
 No Slop coordinates work from these projects. The first three are copied into
-this repository at recorded versions. Impeccable remains a separate
+this repository at recorded versions.
+[Impeccable](https://github.com/pbakaus/impeccable) remains a separate
 installation that No Slop can use for interface work.
 
 | Project | Creator | License | How No Slop uses it |
@@ -240,11 +254,16 @@ installation that No Slop can use for interface work.
 | [Taste Skill](https://github.com/leonxlnx/taste-skill) | [leonxlnx](https://github.com/leonxlnx) | MIT | Provides thirteen skills for visual direction, branding, redesign, and reference-driven interface work |
 | [Impeccable](https://github.com/pbakaus/impeccable) | [Paul Bakaus](https://github.com/pbakaus) | Apache 2.0 | Runs as a separate design skill with interface guidance and a deterministic detector when installed |
 
-The copied files keep their original licenses. Their exact commits and fetch
-dates are recorded in [`sources.json`](sources.json), the
-[Humanizer source record](upstream/humanizer/SOURCE.md), the
-[Stop Slop source record](upstream/stop-slop/SOURCE.md), and the
-[Taste Skill source record](upstream/taste/SOURCE.md).
+The copied files keep their original licenses. Exact commits and fetch dates
+are recorded in [`sources.json`](sources.json) and in a local version record for
+each source:
+
+- [Humanizer](https://github.com/blader/humanizer):
+  [version record](upstream/humanizer/SOURCE.md)
+- [Stop Slop](https://github.com/hardikpandya/stop-slop):
+  [version record](upstream/stop-slop/SOURCE.md)
+- [Taste Skill](https://github.com/leonxlnx/taste-skill):
+  [version record](upstream/taste/SOURCE.md)
 
 No Slop's routing, personal voice layer, protected updater, optional final
 review hook, documentation, and graphics were assembled by
