@@ -18,6 +18,34 @@ Interface:  Taste -> Impeccable, when installed -> your taste -> final review
 The goal is public-facing work that sounds and looks intentional while keeping
 your documented voice in control of the result.
 
+## Why put these skills together
+
+Good anti-slop skills solve different parts of the problem. Humanizer and Stop
+Slop examine writing. Taste and Impeccable improve visual direction and
+interface quality. When they are installed separately, Claude still has to
+choose the right skill, run the checks in a useful order, and resolve conflicts
+between a general rule and the way you genuinely write or design.
+
+No Slop gives those skills one entry point. It identifies whether a request is
+writing or interface work, uses the matching skills, then applies your personal
+rules and examples after the general cleanup.
+
+The system is designed to keep improving from two sources:
+
+- **The original GitHub repositories.** The updater checks the community skills
+  copied into this package. When the weekly GitHub Action is enabled, it opens a
+  pull request when those sources change so you can inspect and accept the
+  update. You can also run the updater manually.
+- **Your voice and taste.** Approved rules, real examples, exceptions, and
+  corrections are saved in `voice/`. Those files help later work sound and look
+  more like you, even when a general anti-slop rule would remove something that
+  belongs to your style.
+
+These are two separate update paths. GitHub updates refresh the shared skills.
+Voice updates come from feedback you approve and save. This is file-based
+memory, not automatic model training, and a plain local clone changes only when
+its updater runs or the agent saves a voice correction.
+
 ## How it works
 
 No Slop uses two layers followed by a final review:
@@ -199,16 +227,28 @@ fast model call whenever Claude tries to stop, so it adds some latency.
 See [`reference/hooks.md`](reference/hooks.md) for the complete behavior and
 limits.
 
-## Copied community skills
+## Credits and source references
 
-| Source | Author | License | Role in No Slop |
+No Slop coordinates work from these projects. The first three are copied into
+this repository at recorded versions. Impeccable remains a separate
+installation that No Slop can use for interface work.
+
+| Project | Creator | License | How No Slop uses it |
 | --- | --- | --- | --- |
-| [blader/humanizer](https://github.com/blader/humanizer) | Siqi Chen | MIT | Finds a broad catalogue of common AI-writing patterns |
-| [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop) | Hardik Pandya | MIT | Adds a stricter pass for directness, rhythm, specificity, trust, and density |
-| [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill) | leonxlnx | MIT | Provides thirteen skills for visual direction, branding, redesign, and reference-driven interface work |
+| [Humanizer](https://github.com/blader/humanizer) | [Siqi Chen](https://github.com/blader) | MIT | Finds a broad catalogue of common AI-writing patterns |
+| [Stop Slop](https://github.com/hardikpandya/stop-slop) | [Hardik Pandya](https://github.com/hardikpandya) | MIT | Adds checks for directness, rhythm, specificity, trust, and density |
+| [Taste Skill](https://github.com/leonxlnx/taste-skill) | [leonxlnx](https://github.com/leonxlnx) | MIT | Provides thirteen skills for visual direction, branding, redesign, and reference-driven interface work |
+| [Impeccable](https://github.com/pbakaus/impeccable) | [Paul Bakaus](https://github.com/pbakaus) | Apache 2.0 | Runs as a separate design skill with interface guidance and a deterministic detector when installed |
 
-The copied files keep their original licenses. Exact commits and fetch dates
-are recorded in [`sources.json`](sources.json) and each `SOURCE.md`.
+The copied files keep their original licenses. Their exact commits and fetch
+dates are recorded in [`sources.json`](sources.json), the
+[Humanizer source record](upstream/humanizer/SOURCE.md), the
+[Stop Slop source record](upstream/stop-slop/SOURCE.md), and the
+[Taste Skill source record](upstream/taste/SOURCE.md).
+
+No Slop's routing, personal voice layer, protected updater, optional final
+review hook, documentation, and graphics were assembled by
+[Rumil Legaspi](https://github.com/Rlegaspi562).
 
 ## Start small
 
