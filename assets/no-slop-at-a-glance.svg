@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="960" height="1040" viewBox="0 0 960 1040" role="img" aria-labelledby="title desc">
-  <title id="title">What the No Slop Claude Code skill changes</title>
-  <desc id="desc">Without No Slop, the user chooses skills manually, broad rules can flatten their voice, downloaded copies can age, corrections can be forgotten, and final review can be skipped. With No Slop, one Claude Code skill chooses the path, runs source skills in order, applies personal voice and taste, keeps community updates reviewable, saves approved corrections, and can check the final review with an optional hook.</desc>
+  <title id="title">What the no-slop Agent Skill changes</title>
+  <desc id="desc">Without no-slop, the user chooses skills manually, broad rules can flatten their voice, downloaded copies can age, corrections can be forgotten, and final review can be skipped. With no-slop, one Agent Skill chooses the path, runs source skills in order, applies personal voice and design taste, keeps community updates reviewable, saves approved corrections, and can check the final review with an optional Claude Code hook.</desc>
 
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
@@ -12,7 +12,7 @@
 
   <g font-family="Arial, Helvetica, sans-serif">
     <text x="48" y="58" fill="#191816" font-family="Georgia, 'Times New Roman', serif" font-size="42" font-weight="700">What /no-slop changes</text>
-    <text x="48" y="96" fill="#57524b" font-size="20">One Claude Code skill coordinates the route, the order, the updates, and the final review.</text>
+    <text x="48" y="96" fill="#57524b" font-size="20">One Agent Skill coordinates the route, the order, the updates, and the final review.</text>
 
     <rect x="48" y="138" width="864" height="302" rx="14" fill="#292621"/>
     <text x="82" y="184" fill="#f2aa83" font-size="17" font-weight="800" letter-spacing="1.2">WITHOUT /NO-SLOP</text>
@@ -28,7 +28,7 @@
     <text x="114" y="427" fill="#fffdf8" font-size="20">Nothing makes the last review difficult to skip.</text>
 
     <path d="M480 456 L480 494" stroke="#bd5f3b" stroke-width="5" marker-end="url(#arrow)"/>
-    <text x="505" y="484" fill="#7f3f29" font-size="16" font-weight="800" letter-spacing="1">NO SLOP COORDINATES IT</text>
+    <text x="505" y="484" fill="#7f3f29" font-size="16" font-weight="800" letter-spacing="1">/NO-SLOP COORDINATES IT</text>
 
     <rect x="48" y="516" width="864" height="422" rx="14" fill="#fffdf8" stroke="#292621" stroke-width="2"/>
     <text x="82" y="562" fill="#bd5f3b" font-size="17" font-weight="800" letter-spacing="1.2">WITH /NO-SLOP</text>

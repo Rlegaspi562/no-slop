@@ -1,19 +1,20 @@
 # Final audit hook
 
-Claude chooses whether to load a skill from its description. A hook is the
+Claude Code chooses whether to load a skill from its description. A hook is the
 deterministic backstop when the final audit must not depend on that choice.
 
-`no-slop` uses a prompt-based `Stop` hook. When Claude is about to finish a
+`no-slop` uses a prompt-based `Stop` hook. When the Claude Code agent is about
+to finish a
 turn, a fast model checks whether the result contains a public-facing
 deliverable and whether the final response records a no-slop audit. If the
-audit is missing, the hook prevents the turn from ending and tells Claude to
+audit is missing, the hook prevents the turn from ending and tells the agent to
 run the skill in embedded mode, fix the result, and try again.
 
 ## Where it runs
 
-The hook runs after Claude has drafted the work, at the moment Claude tries to
+The hook runs after the agent has drafted the work, at the moment it tries to
 stop. The final review should already have happened. If the evidence is
-missing, the hook sends Claude back to that review step. It does not participate
+missing, the hook sends the agent back to that review step. It does not participate
 in skill selection, writing cleanup, voice calibration, or weekly GitHub
 updates.
 
@@ -40,12 +41,13 @@ Restart Claude Code after installing or removing the hook.
 - `UserPromptSubmit` runs before the deliverable exists and would spend a model
   call classifying every prompt.
 - `PostToolUse` sees individual file edits, not the finished deliverable.
-- `Stop` sees the final response and can send Claude back for one last pass.
+- `Stop` sees the final response and can send the agent back for one last pass.
 
 ## Limits
 
 This is a judgment gate, not a content scanner. The prompt hook primarily sees
-Claude's final message, so the skill must finish public-facing work with a
+The hook reads the agent's final message, so the skill must finish
+public-facing work with a
 short `No-slop audit passed` note. The hook does not prove that every claim is
 true, and it does not replace tests, link checks, browser inspection, or the
 mechanical `impeccable` detector for interfaces.

@@ -10,9 +10,9 @@ You are the final no-slop quality gate for Claude Code. Inspect the Stop hook in
 
 Return {"ok": true} when the turn is internal analysis, code-only work with no public-facing copy, logs, status, a quick conversational answer, or when the final response clearly says the public-facing deliverable received a no-slop audit after drafting.
 
-Return {"ok": false, "reason": "Run the no-slop skill in embedded mode on every public-facing prose or interface deliverable, fix the findings, then finish with a brief 'No-slop audit passed' note."} when Claude is about to deliver or claim completion of prose, a document, a script, marketing copy, a presentation, a website, an interface, or another artifact meant for another person and there is no clear evidence of a final no-slop audit.
+Return {"ok": false, "reason": "Run the no-slop skill in embedded mode on every public-facing prose or interface deliverable, fix the findings, then finish with a brief 'No-slop audit passed' note."} when the agent is about to deliver or claim completion of prose, a document, a script, marketing copy, a presentation, a website, an interface, or another artifact meant for another person and there is no clear evidence of a final no-slop audit.
 
-Do not demand the gate for internal scratch work. If stop_hook_active is true, avoid a loop: allow stopping once Claude has addressed the prior reason or clearly states that the work is exempt.`;
+Do not demand the gate for internal scratch work. If stop_hook_active is true, avoid a loop: allow stopping once the agent has addressed the prior reason or clearly states that the work is exempt.`;
 
 const args = process.argv.slice(2);
 const action = args[0] ?? 'status';

@@ -1,6 +1,6 @@
-# No Slop: Clean AI Output Without Flattening Your Voice
+# Anti-Slop Skills Consolidated, Routed, and Updated in One Skill: /no-slop
 
-No Slop is one Claude Code skill that coordinates
+/no-slop is an Agent Skill that coordinates
 [Humanizer](https://github.com/blader/humanizer),
 [Stop Slop](https://github.com/hardikpandya/stop-slop),
 [Taste Skill](https://github.com/leonxlnx/taste-skill), and
@@ -9,21 +9,26 @@ separately. It chooses the appropriate path, runs the skills in a deliberate
 order, applies your own rules and examples, and performs a final review before
 the work is finished.
 
+Here, **your agent** means whatever LLM-powered agent you use. The core
+`SKILL.md` is designed to work in agents that support Agent Skills or Markdown
+instruction folders. Installation, automatic loading, and hooks still depend
+on the agent. The included Stop hook installer currently supports Claude Code.
+
 The system can keep improving through source updates and approved personal
 feedback. The updater can check the original GitHub repositories for changes
 to the included community skills and propose those changes for review.
 Approved feedback can be saved to your personal `voice/` files and used on
-later work. Source updates keep the shared checks current. Saved feedback stops
-you from having to repeat the same correction.
+later work. Source updates keep the included community skills current. Saved
+feedback stops you from having to repeat the same correction.
 
 ![What no-slop changes](assets/no-slop-at-a-glance.svg)
 
-- **Writing:** [Humanizer](https://github.com/blader/humanizer) ->
-  [Stop Slop](https://github.com/hardikpandya/stop-slop) -> your voice -> final
+- **Writing:** [/humanizer](https://github.com/blader/humanizer) ->
+  [/stop-slop](https://github.com/hardikpandya/stop-slop) -> your voice -> final
   review
-- **Interface:** [Taste Skill](https://github.com/leonxlnx/taste-skill) ->
-  [Impeccable](https://github.com/pbakaus/impeccable), when installed -> your
-  taste -> final review
+- **Interface:** [/taste](https://github.com/leonxlnx/taste-skill) ->
+  [/impeccable](https://github.com/pbakaus/impeccable), when installed -> your
+  design taste -> final review
 
 The goal is public-facing work that sounds and looks intentional while keeping
 your documented voice in control of the result.
@@ -40,21 +45,22 @@ No Slop runs this sequence:
    it is installed.
 2. **Your voice and taste.** Your rules, real writing samples, exceptions, and
    saved corrections are applied after the broad checks.
-3. **Final review.** Claude rereads the finished work, identifies anything that
-   still feels generic or unverified, and fixes it.
+3. **Final review.** Your agent rereads the finished work, identifies anything
+   that still feels generic or unverified, and fixes it.
 
-An optional Stop hook runs when Claude tries to finish. It checks that the final
-review happened and sends Claude back if it did not. The hook does not rewrite
-the work itself.
+In Claude Code, an optional Stop hook runs when the agent tries to finish. It
+checks that the final review happened and sends the agent back if it did not.
+The hook does not rewrite the work itself.
 
-![How the no-slop Claude Code skill cleans public-facing work](assets/no-slop-flow.svg)
+![How the no-slop Agent Skill handles public-facing work](assets/no-slop-flow.svg)
 
 ## What coordination adds
 
 Using one source skill by itself is valid for a narrow job. No Slop is useful
 when you do not want to manage the selection and order on every request.
 
-- **Selection:** Claude chooses the writing or interface path from the request.
+- **Selection:** Your agent chooses the writing or interface path from the
+  request.
 - **Order:** broad checks run before personal voice and taste, so a general rule
   does not get the final say over your documented style.
 - **Maintenance:** community updates can be reviewed and accepted without
@@ -111,9 +117,9 @@ interface work when it is available. It does not silently install it.
 
 ## Where it fits
 
-No Slop coordinates existing skills and applies personal preferences inside
-Claude Code. Model training, external AI-content detection, factual
-verification, and software testing remain separate concerns.
+/no-slop coordinates existing skills and applies personal preferences inside
+any agent that can load its instructions. Model training, external AI-content
+detection, factual verification, and software testing remain separate concerns.
 
 ### Limits
 
@@ -124,15 +130,15 @@ verification, and software testing remain separate concerns.
 - Voice learning requires the agent to save an approved rule or a correction.
 - Documented personal rules override copied community defaults.
 
-The included hook installer targets Claude Code. The Markdown instructions can
-inform another agent, but installation and automatic skill loading differ by
-client.
+The core instructions are agent-agnostic. Skill folders, automatic loading,
+slash commands, and hook formats differ between agents. The included hook
+installer and its settings paths target Claude Code only.
 
 ## Before you start
 
 You need:
 
-- Claude Code with skill support;
+- an AI agent that can load Agent Skills or Markdown instruction folders;
 - Git, if you install by cloning or use the updater; and
 - Node.js 18 or later for the updater, tests, and hook installer.
 
@@ -142,6 +148,11 @@ or quickly written samples are often more useful than polished copy because
 they contain less performance and editing.
 
 ## Install
+
+The commands below install `/no-slop` for Claude Code. For another agent, place
+the repository in that agent's supported skills directory. The core
+instructions remain the same, but discovery and slash-command behavior depend
+on the agent.
 
 macOS or Linux:
 
@@ -161,12 +172,12 @@ Then run:
 /no-slop voice
 ```
 
-Give Claude your writing samples, or use the guided brain-dump option if you do
-not have samples ready. Claude drafts voice rules from the evidence and asks
-you to approve them before they become standing rules.
+Give your agent your writing samples, or use the guided brain-dump option if
+you do not have samples ready. Your agent drafts voice rules from the evidence
+and asks you to approve them before they become standing rules.
 
-After setup, invoke `/no-slop` directly or ask Claude for public-facing writing
-or interface work that matches the skill description.
+After setup, invoke `/no-slop` directly or ask your agent for public-facing
+writing or interface work that matches the skill description.
 
 ## Make it yours
 
@@ -176,7 +187,7 @@ or interface work that matches the skill description.
 | `voice/design.md` | Your standing visual preferences and design limits |
 | `voice/corpus/` | Real examples of how you write or speak |
 | `voice/carve-outs.md` | Exceptions that may look wrong to a general rule but are genuinely yours |
-| `voice/learned.md` | Corrections recorded after you reject or rewrite Claude's output |
+| `voice/learned.md` | Corrections recorded after you reject or rewrite the agent's output |
 
 When a community rule conflicts with these files, your documented voice and
 taste win. That precedence is the point of the skill.
@@ -218,11 +229,18 @@ node scripts/update.mjs --check   # report changes without writing
 For local scheduling choices, see
 [`reference/scheduling.md`](reference/scheduling.md).
 
-## Optional final review hook
+The current updater keeps the registered source skills current. It does not
+automatically trust or import every new repository it finds. When a new or
+better anti-slop skill appears, review its license, instructions, overlap,
+safety, and whether it improves a writing or interface route. Add it to
+`sources.json` and the routing only when it earns a place. That is how
+`/no-slop` can keep expanding without blindly collecting prompt packages.
 
-The Stop hook runs after drafting, when Claude tries to finish. If the final
-response does not show that the No Slop review happened, the hook blocks the
-stop and asks Claude to perform the review.
+## Optional Claude Code final review hook
+
+The Stop hook runs after drafting, when the Claude Code agent tries to finish.
+If the final response does not show that the `/no-slop` review happened, the
+hook blocks the stop and asks the agent to perform the review.
 
 Install, inspect, or remove it with:
 
@@ -235,7 +253,7 @@ node scripts/hook.mjs remove
 The installer merges its marked handler into `~/.claude/settings.json`, keeps
 other hooks intact, and creates `settings.json.no-slop.bak` before the first
 change. Restart Claude Code after installing or removing it. The hook uses a
-fast model call whenever Claude tries to stop, so it adds some latency.
+fast model call whenever the agent tries to stop, so it adds some latency.
 
 See [`reference/hooks.md`](reference/hooks.md) for the complete behavior and
 limits.

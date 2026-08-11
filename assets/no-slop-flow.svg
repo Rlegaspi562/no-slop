@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="2160" viewBox="0 0 960 2160" role="img" aria-labelledby="title desc">
-  <title id="title">How the No Slop Claude Code skill works and improves</title>
-  <desc id="desc">A readable top-down diagram. No Slop receives a request for public-facing work and chooses a writing path or interface path. Writing uses the Humanizer and Stop Slop skills. Interfaces use the Taste Skill and, when installed, Impeccable. No Slop then applies personal rules, samples, exceptions, and saved corrections. It performs a final review, and an optional Stop hook checks that review when Claude tries to finish. A separate ongoing improvement section shows reviewable community updates and approved voice corrections saved for later work.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="2115" viewBox="0 0 960 2115" role="img" aria-labelledby="title desc">
+  <title id="title">How the no-slop Agent Skill works and improves</title>
+  <desc id="desc">A readable top-down diagram. The user's LLM-powered agent receives a request for public-facing work. The no-slop skill chooses a writing route or interface route. Writing uses the humanizer and stop-slop skills. Interfaces use the taste skill and, when installed, impeccable. No-slop then applies personal rules, samples, exceptions, and saved corrections before a final review. An optional Claude Code Stop hook can check that the review happened. A separate section shows reviewable community updates and approved personal corrections saved for later work.</desc>
 
   <defs>
     <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
@@ -12,37 +12,37 @@
 
   <g font-family="Arial, Helvetica, sans-serif">
     <text x="46" y="60" fill="#191816" font-family="Georgia, 'Times New Roman', serif" font-size="40" font-weight="700">How the /no-slop skill runs</text>
-    <text x="46" y="98" fill="#57524b" font-size="19">A Claude Code skill is a folder of instructions for handling a specific kind of task.</text>
+    <text x="46" y="98" fill="#57524b" font-size="19">An Agent Skill is a folder of instructions for handling a specific kind of task.</text>
 
     <rect x="46" y="136" width="868" height="124" rx="14" fill="#fffdf8" stroke="#292621" stroke-width="2"/>
     <text x="78" y="181" fill="#bd5f3b" font-size="17" font-weight="800" letter-spacing="1.1">THE REQUEST</text>
-    <text x="78" y="220" fill="#191816" font-size="25" font-weight="800">Claude receives public-facing writing or interface work.</text>
-    <text x="78" y="246" fill="#57524b" font-size="17">Examples: email, README, video script, website, dashboard, presentation</text>
+    <text x="78" y="220" fill="#191816" font-size="25" font-weight="800">Your agent receives public-facing writing or interface work.</text>
+    <text x="78" y="246" fill="#57524b" font-size="17">Your agent can be whatever LLM-powered agent you use.</text>
 
     <path d="M480 261 L480 298" stroke="#bd5f3b" stroke-width="4" marker-end="url(#arrow)"/>
 
     <rect x="46" y="318" width="868" height="352" rx="14" fill="#e9e2d6" stroke="#292621" stroke-width="2"/>
-    <text x="78" y="361" fill="#8b432c" font-size="19" font-weight="800">No Slop chooses the appropriate path</text>
-    <text x="78" y="391" fill="#4c4741" font-size="18">The request determines which source skills Claude reads and applies.</text>
+    <text x="78" y="361" fill="#8b432c" font-size="19" font-weight="800">/no-slop chooses the appropriate path</text>
+    <text x="78" y="391" fill="#4c4741" font-size="18">The request determines which source skills your agent reads and applies.</text>
 
     <rect x="78" y="424" width="390" height="210" rx="12" fill="#fffdf8" stroke="#8c8478" stroke-width="1.5"/>
-    <text x="104" y="465" fill="#625c54" font-size="16" font-weight="800" letter-spacing="1">WRITING</text>
-    <text x="104" y="505" fill="#191816" font-size="23" font-weight="800">Humanizer skill</text>
+    <text x="104" y="465" fill="#625c54" font-size="16" font-weight="800" letter-spacing="1">SKILLS FOR WRITING</text>
+    <text x="104" y="505" fill="#191816" font-size="23" font-weight="800">/humanizer</text>
     <text x="104" y="534" fill="#4c4741" font-size="17">Finds common AI-writing patterns.</text>
-    <text x="104" y="575" fill="#191816" font-size="23" font-weight="800">Stop Slop skill</text>
+    <text x="104" y="575" fill="#191816" font-size="23" font-weight="800">/stop-slop</text>
     <text x="104" y="604" fill="#4c4741" font-size="17">Checks directness, rhythm, trust, and density.</text>
 
     <rect x="492" y="424" width="390" height="210" rx="12" fill="#fffdf8" stroke="#8c8478" stroke-width="1.5"/>
-    <text x="518" y="465" fill="#625c54" font-size="16" font-weight="800" letter-spacing="1">WEBSITE OR INTERFACE</text>
-    <text x="518" y="505" fill="#191816" font-size="23" font-weight="800">Taste Skill</text>
+    <text x="518" y="465" fill="#625c54" font-size="15" font-weight="800" letter-spacing="0.7">SKILLS FOR WEBSITES OR INTERFACES</text>
+    <text x="518" y="505" fill="#191816" font-size="23" font-weight="800">/taste</text>
     <text x="518" y="534" fill="#4c4741" font-size="17">Chooses a clear visual direction.</text>
-    <text x="518" y="575" fill="#191816" font-size="23" font-weight="800">Impeccable skill, when installed</text>
+    <text x="518" y="575" fill="#191816" font-size="23" font-weight="800">/impeccable, when installed</text>
     <text x="518" y="604" fill="#4c4741" font-size="17">Checks generic patterns and technical quality.</text>
 
     <path d="M480 671 L480 710" stroke="#bd5f3b" stroke-width="4" marker-end="url(#arrow)"/>
 
     <rect x="46" y="730" width="868" height="290" rx="14" fill="#dcd1c1" stroke="#292621" stroke-width="2"/>
-    <text x="78" y="775" fill="#8b432c" font-size="19" font-weight="800">Then No Slop applies your voice and taste</text>
+    <text x="78" y="775" fill="#8b432c" font-size="19" font-weight="800">Then /no-slop applies your voice and design taste</text>
     <text x="78" y="809" fill="#38342f" font-size="18">These personal files run after the broad anti-slop checks:</text>
 
     <circle cx="90" cy="862" r="5" fill="#bd5f3b"/>
@@ -60,15 +60,15 @@
     <path d="M480 1021 L480 1060" stroke="#bd5f3b" stroke-width="4" marker-end="url(#arrow)"/>
 
     <rect x="46" y="1080" width="868" height="142" rx="14" fill="#fffdf8" stroke="#292621" stroke-width="2"/>
-    <text x="78" y="1124" fill="#8b432c" font-size="18" font-weight="800">No Slop performs the final review</text>
-    <text x="78" y="1162" fill="#191816" font-size="20" font-weight="700">Claude rereads the work, finds what still feels generic or unverified, and fixes it.</text>
-    <text x="78" y="1195" fill="#57524b" font-size="17">This review is inside No Slop. It is not another skill to install.</text>
+    <text x="78" y="1124" fill="#8b432c" font-size="18" font-weight="800">/no-slop performs the final review</text>
+    <text x="78" y="1162" fill="#191816" font-size="20" font-weight="700">Your agent rereads the work, finds what still feels generic or unverified, and fixes it.</text>
+    <text x="78" y="1195" fill="#57524b" font-size="17">This review is inside /no-slop. It is not another skill to install.</text>
 
     <path d="M480 1223 L480 1262" stroke="#bd5f3b" stroke-width="4" marker-end="url(#arrow)"/>
 
     <rect x="46" y="1282" width="868" height="152" rx="14" fill="#fff7ef" stroke="#bd5f3b" stroke-width="2"/>
     <text x="78" y="1327" fill="#8b432c" font-size="18" font-weight="800">Optional Stop hook checks that the review happened</text>
-    <text x="78" y="1365" fill="#191816" font-size="20" font-weight="700">When Claude tries to finish, the hook sends it back if the review is missing.</text>
+    <text x="78" y="1365" fill="#191816" font-size="20" font-weight="700">When your agent tries to finish, the hook sends it back if the review is missing.</text>
     <text x="78" y="1400" fill="#57524b" font-size="17">The hook does not rewrite the work. It only checks the completion step.</text>
 
     <path d="M480 1435 L480 1472" stroke="#bd5f3b" stroke-width="4" marker-end="url(#arrow)"/>
@@ -94,7 +94,6 @@
     <text x="91" y="1998" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">3</text>
     <text x="120" y="1987" fill="#fffdf8" font-size="18" font-weight="700">You review and accept it.</text>
     <text x="120" y="2012" fill="#d8d0c4" font-size="17">Nothing changes before approval.</text>
-    <text x="76" y="2064" fill="#f2aa83" font-size="17" font-weight="800">Your voice files cannot be changed here.</text>
 
     <rect x="500" y="1740" width="414" height="352" rx="14" fill="#fffdf8" stroke="#292621" stroke-width="2"/>
     <text x="530" y="1785" fill="#8b432c" font-size="20" font-weight="800">Your voice and taste updates</text>
@@ -111,8 +110,5 @@
     <text x="545" y="1998" text-anchor="middle" fill="#fffdf8" font-size="14" font-weight="800">3</text>
     <text x="574" y="1987" fill="#191816" font-size="18" font-weight="700">Later work applies it</text>
     <text x="574" y="2012" fill="#57524b" font-size="17">after the broad checks.</text>
-    <text x="530" y="2064" fill="#8b432c" font-size="17" font-weight="800">This is saved memory, not model training.</text>
-
-    <text x="480" y="2132" text-anchor="middle" fill="#4b4640" font-size="19" font-weight="800">The shared checks can stay current without overwriting what makes the work yours.</text>
   </g>
 </svg>

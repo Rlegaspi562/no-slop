@@ -15,6 +15,9 @@ comments, commit messages, and chat replies.
 - **No unverified claims.** If a guide, source, test, benchmark, or integration
   was not checked, do not say it was.
 - **No privacy-sensitive facts in public copy.**
+- **Keep portable behavior agent-agnostic.** Say "your agent" or "whatever
+  LLM-powered agent you use" for core behavior. Name Claude Code only for an
+  exact Claude Code-only path, hook, setting, or install step.
 
 ## Defaults
 

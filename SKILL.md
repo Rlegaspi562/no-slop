@@ -1,12 +1,12 @@
 ---
 name: no-slop
-description: The single entry point for making public-facing work not sound or look AI-generated. Claude should load it for prose another person will read (README, docs, email, post, video script, product copy, cover letter), interfaces and visual artifacts (website, landing page, dashboard, deck, asset), requests to humanize text or remove AI slop, and voice or writing-sample setup. Routes to copied community skills (humanizer, stop-slop, taste) and applies the user's voice layer last, which always wins. Not for quick conversational answers, internal scratch work, logs, or code with no public-facing copy.
+description: The single entry point for making public-facing work not sound or look AI-generated. The agent should load it for prose another person will read (README, docs, email, post, video script, product copy, cover letter), interfaces and visual artifacts (website, landing page, dashboard, deck, asset), requests to humanize text or remove AI slop, and voice or writing-sample setup. Routes to copied community skills (humanizer, stop-slop, taste) and applies the user's voice layer last, which always wins. Not for quick conversational answers, internal scratch work, logs, or code with no public-facing copy.
 user-invocable: true
 argument-hint: "[update | schedule | hook | learn | voice | status] [target]"
 license: MIT
 ---
 
-# No Slop
+# /no-slop
 
 One coordinator for public-facing writing and interfaces. It chooses the
 appropriate source skills, runs them in a deliberate order, applies the user's
@@ -15,8 +15,8 @@ voice and taste afterward, and requires a final review.
 Run this sequence:
 
 ```
-1. General cleanup    copied community skills: humanizer + stop-slop for
-                      writing, or taste + impeccable for interfaces
+1. General cleanup    copied community skills: /humanizer + /stop-slop for
+                      writing, or /taste + /impeccable for interfaces
 2. Personal voice     the user's own rules, samples, exceptions, and corrections
 3. Final review       reread the finished work, find what remains, and fix it
 ```
@@ -27,6 +27,12 @@ and final review to the user or agent each time. Keep two improvement paths
 separate: `scripts/update.mjs` refreshes only copied community files after
 review, while approved feedback is saved under `voice/` for later work. Never
 let a community update overwrite the personal path.
+
+**Use agent-agnostic language.** In these instructions, "the agent" means
+whatever LLM-powered agent is running the skill. The core Markdown workflow is
+portable to systems that can load Agent Skills or instruction folders. Name
+Claude Code only when discussing its exact skill path, settings file, or Stop
+hook. Do not imply that the included hook installer works in another agent.
 
 **The voice wins.** When an upstream file and a `voice/` file disagree, the
 voice is correct. Override silently. Do not ask the user to resolve it.
@@ -180,6 +186,13 @@ compares against the pinned commit, reports what changed, and writes only inside
 `voice/` cannot be clobbered by an upstream change.
 
 Use `--check` to see what would change without writing.
+
+Do not automatically import every new anti-slop repository. When the user or
+maintainer identifies a new or better skill, review its license, instructions,
+overlap, safety, maintenance quality, and whether it improves an existing route.
+Add it to `sources.json`, the protected updater, credits, and routing only when
+it earns a clear job. The updater keeps registered sources current; it does not
+discover or approve new sources on its own.
 
 ### `/no-slop schedule`
 
