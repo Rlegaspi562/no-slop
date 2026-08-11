@@ -17,6 +17,8 @@ or document produced for another person to look at.
   meaning: a pill button and a content card are not the same object.
 - **No centered-everything layout.** Centering is a choice for a specific
   element, not a page-level default.
+- **Make the layout match the relationship.** Show parallel paths side by side
+  when space permits. Stack items only when one happens after another.
 
 ## Default direction
 

@@ -73,11 +73,11 @@ when you do not want to manage the selection and order on every request.
 - **Completion:** the final review is part of the workflow, with an optional
   hook that can catch it when it is skipped.
 
-## Reasonable critiques
+## Reasonable concerns
 
-This approach adds machinery, and that tradeoff should be visible.
+These are the practical concerns worth knowing before you use `/no-slop`.
 
-| Critique | How No Slop handles it |
+| Concern | How /no-slop handles it |
 | --- | --- |
 | Several skills can use more context and take longer than one skill. | It runs only for public-facing work, and short outputs can use the personal hard rules without loading every source catalogue. |
 | Stacking rule sets can over-edit the work or flatten a real voice. | Personal rules, samples, and documented exceptions run after the broad checks and override them. |

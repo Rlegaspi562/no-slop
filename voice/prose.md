@@ -18,6 +18,10 @@ comments, commit messages, and chat replies.
 - **Keep portable behavior agent-agnostic.** Say "your agent" or "whatever
   LLM-powered agent you use" for core behavior. Name Claude Code only for an
   exact Claude Code-only path, hook, setting, or install step.
+- **No abstract framing for ordinary downsides.** Never write "adds machinery,"
+  "the tradeoff should be visible," or similar filler. Name the concern and its
+  practical consequence. Use "concern" or "question," not "critique," unless
+  the subject is a formal critique.
 
 ## Defaults
 
