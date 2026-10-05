@@ -6,8 +6,8 @@ at the revision tracked below.
 <!-- no-slop-source:start -->
 Source: https://github.com/blader/humanizer
 Ref: main
-Pinned commit: `523374dee72d67c7b2b5f858ea0094ffda49c3ac`
-Fetched: 2026-08-09
+Pinned commit: `225a6f39ac85f76ee48dbad772ea4abe4ed6c9d8`
+Fetched: 2026-10-05
 Version: 2.9.1
 <!-- no-slop-source:end -->
 
