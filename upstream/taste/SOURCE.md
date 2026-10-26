@@ -6,8 +6,8 @@ MIT, at the revision tracked below.
 <!-- no-slop-source:start -->
 Source: https://github.com/leonxlnx/taste-skill
 Ref: main
-Pinned commit: `e988add20dab0fa97d7a76781c48961c8184288e`
-Fetched: 2026-08-09
+Pinned commit: `12af471f627f866411b4bd785b19646d3672784c`
+Fetched: 2026-10-26
 <!-- no-slop-source:end -->
 
 Upstream path: `skills/`. All 13 skills are vendored, with upstream directory
